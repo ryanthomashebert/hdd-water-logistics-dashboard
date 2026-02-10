@@ -490,17 +490,13 @@
       display: block;
     }
 
-    /* Map legend */
+    /* Map legend - sits below stats in overlay group */
     .map-legend {
-      position: absolute;
-      bottom: 12px;
-      right: 16px;
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(8px);
       border: 2px solid var(--border-black);
       border-radius: 10px;
-      padding: 14px 18px;
-      z-index: 20;
+      padding: 10px 14px;
       box-shadow: 3px 3px 0 rgba(84, 110, 122, 0.3);
     }
 
@@ -555,6 +551,22 @@
       display: flex;
       gap: 12px;
       z-index: 20;
+    }
+
+    /* Stats + legend wrapper for alignment */
+    .map-overlay-group {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .map-overlay-group .map-stats {
+      position: static;
     }
 
     .map-stat {
@@ -1786,19 +1798,47 @@
       </div>
 
       <div class="map-container" id="geoMapContainer">
-        <!-- Map Stats Overlay -->
-        <div class="map-stats">
-          <div class="map-stat">
-            <div class="map-stat-value">3</div>
-            <div class="map-stat-label">Active HDDs</div>
+        <!-- Stats + Legend grouped in top-right -->
+        <div class="map-overlay-group">
+          <div class="map-stats">
+            <div class="map-stat">
+              <div class="map-stat-value">3</div>
+              <div class="map-stat-label">Active HDDs</div>
+            </div>
+            <div class="map-stat">
+              <div class="map-stat-value">2</div>
+              <div class="map-stat-label">Tugs Deployed</div>
+            </div>
+            <div class="map-stat">
+              <div class="map-stat-value">1</div>
+              <div class="map-stat-label">On-Site</div>
+            </div>
           </div>
-          <div class="map-stat">
-            <div class="map-stat-value">2</div>
-            <div class="map-stat-label">Tugs Deployed</div>
-          </div>
-          <div class="map-stat">
-            <div class="map-stat-value">1</div>
-            <div class="map-stat-label">On-Site</div>
+
+          <div class="map-legend">
+            <div class="legend-title">Legend</div>
+            <div class="legend-items">
+              <div class="legend-item">
+                <div class="legend-dot red"></div>
+                Red Rig
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot blue"></div>
+                Blue Rig
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot green"></div>
+                Green Rig
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot source"></div>
+                Water Source
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot tug"></div>
+                Tug
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1813,33 +1853,6 @@
           <g id="hddMarkers"></g>
           <g id="tugMarkers"></g>
         </svg>
-
-        <!-- Map Legend -->
-        <div class="map-legend">
-          <div class="legend-title">Legend</div>
-          <div class="legend-items">
-            <div class="legend-item">
-              <div class="legend-dot red"></div>
-              Red Rig
-            </div>
-            <div class="legend-item">
-              <div class="legend-dot blue"></div>
-              Blue Rig
-            </div>
-            <div class="legend-item">
-              <div class="legend-dot green"></div>
-              Green Rig
-            </div>
-            <div class="legend-item">
-              <div class="legend-dot source"></div>
-              Water Source
-            </div>
-            <div class="legend-item">
-              <div class="legend-dot tug"></div>
-              Tug
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
