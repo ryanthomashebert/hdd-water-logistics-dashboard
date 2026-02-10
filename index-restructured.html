@@ -7608,15 +7608,15 @@
 
       // Calculate impact rankings
       const impacts = Object.entries(parameters).map(([paramKey, paramData]) => {
-        const testName = paramData.name || paramKey;
-        const variations = paramData.variations || [];
-        const successful = variations.filter(r => r.success && r.totalCost);
+        const testName = Array.isArray(paramData) ? paramKey : (paramData.name || paramKey);
+        const variations = Array.isArray(paramData) ? paramData : (paramData.variations || []);
+        const successful = variations.filter(r => (r.success !== false) && (r.totalCost || r.cost));
 
         if (successful.length === 0) {
           return { name: testName, maxImpact: 0, range: 0, hasData: false };
         }
 
-        const costs = successful.map(r => r.totalCost);
+        const costs = successful.map(r => r.totalCost || r.cost);
         const minCost = Math.min(...costs);
         const maxCost = Math.max(...costs);
         const range = maxCost - minCost;
@@ -7649,7 +7649,7 @@
               <div className="bg-white rounded p-3 shadow-sm">
                 <div className="text-sm text-gray-500">Tests Completed</div>
                 <div className="text-xl font-bold text-gray-800">
-                  {Object.values(parameters).reduce((sum, p) => sum + (p.variations?.length || 0), 0)}
+                  {Object.values(parameters).reduce((sum, p) => sum + (Array.isArray(p) ? p.length : (p.variations?.length || 0)), 0)}
                 </div>
                 <div className="text-xs text-gray-500">99.7% reliability target</div>
               </div>
