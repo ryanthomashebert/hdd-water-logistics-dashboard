@@ -320,7 +320,7 @@
        MAIN CONTENT
        ================================================================ */
     .ops-container {
-      max-width: 1600px;
+      max-width: 1800px;
       margin: 0 auto;
       padding: 32px;
       display: grid;
@@ -328,6 +328,50 @@
       gap: 24px;
       position: relative;
       z-index: 1;
+    }
+
+    /* ================================================================
+       COMMAND CENTER - Portrait Map + Data Side-by-Side
+       ================================================================ */
+    .command-center {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .command-center .map-section {
+      position: sticky;
+      top: 90px;
+      max-height: calc(100vh - 110px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .command-center .map-container {
+      flex: 1;
+      height: auto;
+      min-height: 700px;
+    }
+
+    .command-data-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    @media (max-width: 1200px) {
+      .command-center {
+        grid-template-columns: 1fr;
+      }
+      .command-center .map-section {
+        position: relative;
+        top: auto;
+        max-height: none;
+      }
+      .command-center .map-container {
+        min-height: 500px;
+      }
     }
 
     /* ================================================================
@@ -435,7 +479,7 @@
 
     .map-container {
       position: relative;
-      height: 550px;
+      height: 700px;
       background: #dce4ed;
       overflow: hidden;
     }
@@ -543,8 +587,8 @@
        ================================================================ */
     .hdd-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 20px;
+      grid-template-columns: 1fr;
+      gap: 16px;
     }
 
     .hdd-card {
@@ -569,7 +613,7 @@
     .hdd-card.rig-red .hdd-card-accent { background: var(--rig-red); }
 
     .hdd-card-content {
-      padding: 20px 24px;
+      padding: 16px 20px;
     }
 
     .hdd-header {
@@ -762,6 +806,10 @@
       overflow: hidden;
     }
 
+    .fleet-section .fleet-table {
+      font-size: 0.85rem;
+    }
+
     .fleet-table {
       width: 100%;
       border-collapse: collapse;
@@ -775,13 +823,13 @@
       text-transform: uppercase;
       letter-spacing: 0.1em;
       text-align: left;
-      padding: 16px 20px;
+      padding: 12px 16px;
       background: var(--bg-light);
       border-bottom: 2px solid var(--border-black);
     }
 
     .fleet-table td {
-      padding: 18px 20px;
+      padding: 14px 16px;
       border-bottom: 1px solid var(--border-light);
       vertical-align: middle;
     }
@@ -1719,7 +1767,10 @@
 
   <!-- MAIN CONTENT -->
   <main class="ops-container">
-    <!-- OPERATIONS MAP -->
+    <!-- COMMAND CENTER: Map + Operational Data Side-by-Side -->
+    <div class="command-center">
+
+    <!-- LEFT: Portrait Operations Map -->
     <section class="map-section">
       <div class="map-header">
         <div class="section-title">Live Asset Positions</div>
@@ -1752,7 +1803,7 @@
         </div>
 
         <!-- SVG Map - all markers and routes rendered via JS -->
-        <svg id="mapSvg" viewBox="580 200 520 850" preserveAspectRatio="xMidYMid meet">
+        <svg id="mapSvg" viewBox="600 150 480 950" preserveAspectRatio="xMidYMid meet">
           <!-- Background map image -->
           <image href="map_background.png" x="0" y="0" width="1662" height="1303" opacity="1" preserveAspectRatio="none" />
           <!-- Route lines group -->
@@ -1792,9 +1843,12 @@
       </div>
     </section>
 
+    <!-- RIGHT: Operational Data Panel -->
+    <div class="command-data-panel">
+
     <!-- ACTIVE HDDs SECTION - Real Data for July 6, 2026 -->
     <section>
-      <div class="section-title" style="margin-bottom: 20px;">Active HDD Crossings <span class="zigzag"></span></div>
+      <div class="section-title" style="margin-bottom: 16px;">Active HDD Crossings <span class="zigzag"></span></div>
       <div class="hdd-grid">
         <!-- HDD23 - Red Rig (Active Drilling) -->
         <div class="hdd-card rig-red">
@@ -1992,6 +2046,9 @@
         </tbody>
       </table>
     </section>
+
+    </div><!-- /.command-data-panel -->
+    </div><!-- /.command-center -->
 
     <!-- ALERTS & DELIVERIES - Real Data for July 6, 2026 -->
     <section class="two-col-grid">
