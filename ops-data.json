@@ -1,0 +1,96 @@
+{
+  "date": "2026-07-06",
+  "displayDate": "Monday, July 6, 2026",
+  "projectDay": 41,
+  "activeHDDs": [
+    {
+      "crossing": "HDD23",
+      "rig": "Red",
+      "phase": "pilot",
+      "phaseDay": 3,
+      "phaseTotalDays": 7,
+      "consumptionRate": 7500,
+      "storageLevel": 160000,
+      "storageCapacity": 160000,
+      "storagePercent": 100,
+      "supplyHours": 21,
+      "status": "healthy"
+    },
+    {
+      "crossing": "HDD19",
+      "rig": "Blue",
+      "phase": "rigUp",
+      "phaseDay": 5,
+      "phaseTotalDays": 7,
+      "consumptionRate": 0,
+      "storageLevel": 300000,
+      "storageCapacity": 300000,
+      "storagePercent": 100,
+      "supplyHours": 999,
+      "status": "standby"
+    },
+    {
+      "crossing": "HDD21",
+      "rig": "Green",
+      "phase": "rigUp",
+      "phaseDay": 1,
+      "phaseTotalDays": 14,
+      "consumptionRate": 0,
+      "storageLevel": 0,
+      "storageCapacity": 300000,
+      "storagePercent": 0,
+      "supplyHours": 999,
+      "status": "standby"
+    }
+  ],
+  "tugs": [
+    {
+      "id": "T2",
+      "name": "TT2",
+      "status": "on-site",
+      "statusDetail": "",
+      "location": "at HDD23",
+      "cargo": "",
+      "cargoLevel": 0
+    },
+    {
+      "id": "T1",
+      "name": "TT1",
+      "status": "idle",
+      "statusDetail": "",
+      "location": "at source3",
+      "cargo": "",
+      "cargoLevel": 0
+    }
+  ],
+  "deliveries": [],
+  "alerts": [
+    {
+      "type": "info",
+      "title": "HDD19 Rig-Up in Progress",
+      "detail": "Blue Rig in rigUp phase. Storage: 100% pre-staged."
+    },
+    {
+      "type": "info",
+      "title": "HDD21 Rig-Up in Progress",
+      "detail": "Green Rig in rigUp phase. Storage: 0% pre-staged."
+    },
+    {
+      "type": "info",
+      "title": "HDD19 Pilot Start in 3 Days",
+      "detail": "Blue Rig scheduled to begin pilot drilling. Verify storage pre-staged."
+    }
+  ],
+  "recommendations": [
+    {
+      "type": "info",
+      "title": "Maintain HDD23 Steady State",
+      "detail": "21h supply buffer is healthy. Continue scheduled delivery rotations."
+    }
+  ],
+  "summary": {
+    "totalDeliveries": 0,
+    "totalVolume": 0,
+    "avgStorageLevel": 67
+  }
+}

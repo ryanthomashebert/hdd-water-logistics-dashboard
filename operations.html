@@ -1,0 +1,2772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MBTC Operations Center - Daily Field Operations</title>
+
+  <!-- Google Fonts - Editorial/Industrial Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ================================================================
+       GRUNGY INDUSTRIAL THEME
+       Editorial Magazine Style with WHC+ONEOK Brand Colors
+       ================================================================ */
+
+    :root {
+      /* WHC Brand Colors */
+      --whc-navy: #1e3a5f;
+      --whc-red: #d94545;
+
+      /* ONEOK Brand Colors */
+      --oneok-blue: #2d9cdb;
+      --oneok-black: #1a1a1a;
+
+      /* Primary Palette */
+      --primary-accent: #2d9cdb;  /* ONEOK Blue as primary */
+      --secondary-accent: #d94545; /* WHC Red for warnings/alerts */
+      --header-dark: #1a1a1a;
+      --navy-dark: #1e3a5f;
+
+      /* Light Theme Backgrounds */
+      --bg-cream: #f5f3ef;
+      --bg-white: #ffffff;
+      --bg-light: #faf9f7;
+      --bg-muted: #eae8e4;
+
+      /* Text Colors */
+      --text-black: #1a1a1a;
+      --text-dark: #2d2d2d;
+      --text-medium: #5a5a5a;
+      --text-light: #8a8a8a;
+
+      /* Status Colors */
+      --status-green: #22c55e;
+      --status-orange: #f59e0b;
+      --status-red: #dc2626;
+
+      /* Rig Colors */
+      --rig-blue: #2563eb;
+      --rig-green: #16a34a;
+      --rig-red: #dc2626;
+
+      /* Borders */
+      --border-black: #1a1a1a;
+      --border-light: #d4d4d4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Work Sans', system-ui, sans-serif;
+      background: var(--bg-cream);
+      color: var(--text-black);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Subtle dot pattern background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: radial-gradient(var(--border-light) 1px, transparent 1px);
+      background-size: 20px 20px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    /* ================================================================
+       HEADER - Black Bar with Accent Stripe
+       ================================================================ */
+    .ops-header {
+      background: var(--header-dark);
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    /* Accent stripe */
+    .accent-stripe {
+      height: 6px;
+      background: var(--primary-accent);
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 16px 32px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-group img {
+      height: 36px;
+      width: auto;
+    }
+
+    .logo-divider {
+      width: 2px;
+      height: 32px;
+      background: #444;
+    }
+
+    .header-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      color: #ffffff;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .header-subtitle {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      color: #888;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .header-center {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .datetime-display {
+      text-align: center;
+    }
+
+    .current-date {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .current-time {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      color: #ffffff;
+      letter-spacing: 0.05em;
+    }
+
+    .project-day {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--primary-accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .weather-display {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #333;
+      border-radius: 8px;
+    }
+
+    .weather-icon {
+      font-size: 1.5rem;
+    }
+
+    .weather-info {
+      text-align: left;
+    }
+
+    .weather-temp {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      color: #ffffff;
+    }
+
+    .weather-condition {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--status-green);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .live-indicator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      background: rgba(34, 197, 94, 0.1);
+      border: 2px solid var(--status-green);
+      border-radius: 30px;
+    }
+
+    .live-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--status-green);
+      border-radius: 50%;
+      animation: pulse-live 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-live {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+
+    .live-text {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--status-green);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .mode-badge {
+      padding: 10px 20px;
+      background: var(--primary-accent);
+      border-radius: 6px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      color: #ffffff;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ================================================================
+       MAIN CONTENT
+       ================================================================ */
+    .ops-container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ================================================================
+       CARD STYLES - Grungy Editorial
+       ================================================================ */
+    .card {
+      background: var(--bg-white);
+      border-radius: 16px;
+      border: 2px solid var(--border-black);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 8px 8px 0 var(--border-black);
+    }
+
+    .card-header {
+      padding: 16px 24px;
+      background: var(--bg-light);
+      border-bottom: 2px solid var(--border-black);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--text-black);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      background: var(--primary-accent);
+      border-radius: 2px;
+    }
+
+    /* Decorative zigzag */
+    .zigzag {
+      display: inline-block;
+      width: 40px;
+      height: 8px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='8' viewBox='0 0 40 8'%3E%3Cpath d='M0 4 L5 0 L10 4 L15 0 L20 4 L25 0 L30 4 L35 0 L40 4' stroke='%231a1a1a' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat;
+    }
+
+    /* ================================================================
+       MAP SECTION
+       ================================================================ */
+    .map-section {
+      background: var(--bg-white);
+      border-radius: 16px;
+      border: 2px solid var(--border-black);
+      overflow: hidden;
+    }
+
+    .map-header {
+      padding: 16px 24px;
+      background: var(--navy-dark);
+      border-bottom: 2px solid var(--border-black);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .map-header .section-title {
+      color: #ffffff;
+    }
+
+    .map-header .section-title::before {
+      background: var(--primary-accent);
+    }
+
+    .map-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .map-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: #aaa;
+    }
+
+    .map-meta-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--status-green);
+      border-radius: 50%;
+      animation: pulse-live 1.5s ease-in-out infinite;
+    }
+
+    .map-container {
+      position: relative;
+      height: 500px;
+      background: linear-gradient(180deg, #e8f4f8 0%, #d4e8ed 50%, #c5dce3 100%);
+      overflow: hidden;
+    }
+
+    /* Water effect */
+    .map-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image:
+        radial-gradient(ellipse at 20% 30%, rgba(45, 156, 219, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(45, 156, 219, 0.1) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    .map-element {
+      position: absolute;
+      z-index: 10;
+    }
+
+    /* Source markers - Grungy style */
+    .source-marker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform: translate(-50%, -50%);
+    }
+
+    .source-marker-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--bg-white);
+      border: 3px solid var(--primary-accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      box-shadow: 4px 4px 0 var(--border-black);
+    }
+
+    .source-marker-label {
+      margin-top: 8px;
+      padding: 6px 12px;
+      background: var(--header-dark);
+      border: 2px solid var(--border-black);
+      border-radius: 6px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: #ffffff;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* HDD markers */
+    .hdd-marker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform: translate(-50%, -50%);
+    }
+
+    .hdd-marker-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      box-shadow: 4px 4px 0 var(--border-black);
+      position: relative;
+      border: 3px solid var(--border-black);
+    }
+
+    .hdd-marker-icon.blue {
+      background: var(--rig-blue);
+      color: white;
+    }
+
+    .hdd-marker-icon.green {
+      background: var(--rig-green);
+      color: white;
+    }
+
+    .hdd-marker-icon.red {
+      background: var(--rig-red);
+      color: white;
+    }
+
+    .hdd-marker-icon.staging {
+      opacity: 0.6;
+      border-style: dashed;
+    }
+
+    .hdd-marker-phase {
+      font-size: 0.55rem;
+      font-family: 'Work Sans', sans-serif;
+      font-weight: 600;
+      opacity: 0.9;
+      margin-top: 2px;
+      text-transform: uppercase;
+    }
+
+    .hdd-marker-storage {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 8px;
+      background: var(--bg-white);
+      border: 2px solid var(--border-black);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .hdd-marker-storage-fill {
+      height: 100%;
+    }
+
+    .hdd-marker-storage-fill.healthy { background: var(--status-green); }
+    .hdd-marker-storage-fill.warning { background: var(--status-orange); }
+    .hdd-marker-storage-fill.critical { background: var(--status-red); }
+
+    .hdd-marker-label {
+      margin-top: 14px;
+      padding: 4px 10px;
+      background: var(--bg-white);
+      border: 2px solid var(--border-black);
+      border-radius: 4px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      white-space: nowrap;
+    }
+
+    /* Tug markers */
+    .tug-marker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s ease;
+    }
+
+    .tug-marker-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--bg-white);
+      border: 3px solid var(--border-black);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      position: relative;
+      box-shadow: 3px 3px 0 var(--border-black);
+    }
+
+    .tug-marker-icon.en-route {
+      border-color: var(--primary-accent);
+      animation: tug-bounce 1s ease-in-out infinite;
+    }
+
+    .tug-marker-icon.filling {
+      border-color: var(--status-orange);
+    }
+
+    .tug-marker-icon.on-site {
+      border-color: var(--status-green);
+    }
+
+    .tug-marker-icon.idle {
+      border-color: var(--text-light);
+      opacity: 0.7;
+      box-shadow: none;
+    }
+
+    @keyframes tug-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    .tug-marker-label {
+      margin-top: 6px;
+      padding: 3px 8px;
+      background: var(--header-dark);
+      border: 2px solid var(--border-black);
+      border-radius: 4px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.85rem;
+      color: #ffffff;
+      letter-spacing: 0.05em;
+    }
+
+    .tug-marker-status {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--text-medium);
+      margin-top: 3px;
+      text-transform: uppercase;
+    }
+
+    /* Map legend */
+    .map-legend {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      background: var(--bg-white);
+      border: 2px solid var(--border-black);
+      border-radius: 10px;
+      padding: 14px 18px;
+      z-index: 20;
+      box-shadow: 4px 4px 0 var(--border-black);
+    }
+
+    .legend-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-black);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border-light);
+    }
+
+    .legend-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      text-transform: uppercase;
+    }
+
+    .legend-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      border: 2px solid var(--border-black);
+    }
+
+    .legend-dot.blue { background: var(--rig-blue); }
+    .legend-dot.green { background: var(--rig-green); }
+    .legend-dot.red { background: var(--rig-red); }
+    .legend-dot.source { background: var(--primary-accent); border-radius: 50%; }
+    .legend-dot.tug { background: var(--bg-white); border-radius: 50%; }
+
+    /* Map stats overlay */
+    .map-stats {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      gap: 12px;
+      z-index: 20;
+    }
+
+    .map-stat {
+      background: var(--bg-white);
+      border: 2px solid var(--border-black);
+      border-radius: 10px;
+      padding: 12px 18px;
+      text-align: center;
+      box-shadow: 3px 3px 0 var(--border-black);
+    }
+
+    .map-stat-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      color: var(--primary-accent);
+    }
+
+    .map-stat-label {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: var(--text-medium);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ================================================================
+       HDD CARDS
+       ================================================================ */
+    .hdd-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 20px;
+    }
+
+    .hdd-card {
+      background: var(--bg-white);
+      border-radius: 16px;
+      border: 2px solid var(--border-black);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .hdd-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 6px 6px 0 var(--border-black);
+    }
+
+    .hdd-card-accent {
+      height: 6px;
+    }
+
+    .hdd-card.rig-blue .hdd-card-accent { background: var(--rig-blue); }
+    .hdd-card.rig-green .hdd-card-accent { background: var(--rig-green); }
+    .hdd-card.rig-red .hdd-card-accent { background: var(--rig-red); }
+
+    .hdd-card-content {
+      padding: 20px 24px;
+    }
+
+    .hdd-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .hdd-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--text-black);
+      letter-spacing: 0.05em;
+    }
+
+    .hdd-rig {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+
+    .hdd-rig.blue { color: var(--rig-blue); }
+    .hdd-rig.green { color: var(--rig-green); }
+    .hdd-rig.red { color: var(--rig-red); }
+
+    .phase-badge {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border: 2px solid var(--border-black);
+    }
+
+    .phase-pilot {
+      background: rgba(37, 99, 235, 0.15);
+      color: var(--rig-blue);
+    }
+
+    .phase-ream {
+      background: rgba(220, 38, 38, 0.15);
+      color: var(--rig-red);
+    }
+
+    .phase-swab {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--status-orange);
+    }
+
+    .phase-rigup {
+      background: var(--bg-muted);
+      color: var(--text-medium);
+    }
+
+    .hdd-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 14px;
+      background: var(--bg-light);
+      border-radius: 10px;
+      border: 2px solid var(--border-light);
+    }
+
+    .stat-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      color: var(--text-black);
+    }
+
+    .stat-label {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--text-medium);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+    }
+
+    .storage-bar-container {
+      margin-bottom: 16px;
+    }
+
+    .storage-bar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+
+    .storage-level {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      color: var(--text-black);
+    }
+
+    .storage-capacity {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-light);
+    }
+
+    .storage-bar {
+      height: 16px;
+      background: var(--bg-muted);
+      border-radius: 8px;
+      border: 2px solid var(--border-black);
+      overflow: hidden;
+    }
+
+    .storage-bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.5s ease;
+    }
+
+    .storage-bar-fill.healthy { background: var(--status-green); }
+    .storage-bar-fill.warning { background: var(--status-orange); }
+    .storage-bar-fill.critical { background: var(--status-red); }
+
+    .hdd-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 2px solid var(--border-light);
+    }
+
+    .supply-hours {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .supply-hours-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+    }
+
+    .supply-hours-value.healthy { color: var(--status-green); }
+    .supply-hours-value.warning { color: var(--status-orange); }
+    .supply-hours-value.critical { color: var(--status-red); }
+
+    .supply-hours-label {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-medium);
+      text-transform: uppercase;
+    }
+
+    .next-delivery {
+      text-align: right;
+    }
+
+    .next-delivery-label {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .next-delivery-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      color: var(--primary-accent);
+    }
+
+    /* ================================================================
+       FLEET STATUS TABLE
+       ================================================================ */
+    .fleet-section {
+      background: var(--bg-white);
+      border-radius: 16px;
+      border: 2px solid var(--border-black);
+      overflow: hidden;
+    }
+
+    .fleet-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .fleet-table th {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-medium);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: left;
+      padding: 16px 20px;
+      background: var(--bg-light);
+      border-bottom: 2px solid var(--border-black);
+    }
+
+    .fleet-table td {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border-light);
+      vertical-align: middle;
+    }
+
+    .fleet-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .fleet-table tr:hover td {
+      background: var(--bg-light);
+    }
+
+    .tug-id {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      color: var(--text-black);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tug-icon {
+      font-size: 1.4rem;
+    }
+
+    .status-cell {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .status-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      border: 2px solid var(--border-black);
+    }
+
+    .status-icon.en-route {
+      background: rgba(45, 156, 219, 0.15);
+    }
+
+    .status-icon.filling {
+      background: rgba(245, 158, 11, 0.15);
+    }
+
+    .status-icon.on-site {
+      background: rgba(34, 197, 94, 0.15);
+    }
+
+    .status-icon.idle {
+      background: var(--bg-muted);
+    }
+
+    .status-text {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-black);
+    }
+
+    .status-detail {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-light);
+      margin-top: 2px;
+    }
+
+    .cargo-cell {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+
+    .eta-cell {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      color: var(--primary-accent);
+    }
+
+    .progress-cell {
+      width: 120px;
+    }
+
+    .progress-mini {
+      height: 10px;
+      background: var(--bg-muted);
+      border-radius: 5px;
+      border: 2px solid var(--border-black);
+      overflow: hidden;
+    }
+
+    .progress-mini-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: var(--primary-accent);
+    }
+
+    /* ================================================================
+       TWO COLUMN LAYOUT - ALERTS & DELIVERIES
+       ================================================================ */
+    .two-col-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 1200px) {
+      .two-col-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Alerts Panel */
+    .alerts-panel {
+      background: var(--bg-white);
+      border-radius: 16px;
+      border: 2px solid var(--border-black);
+      overflow: hidden;
+    }
+
+    .alerts-header {
+      padding: 16px 24px;
+      background: var(--secondary-accent);
+      border-bottom: 2px solid var(--border-black);
+    }
+
+    .alerts-header .section-title {
+      color: #ffffff;
+    }
+
+    .alerts-header .section-title::before {
+      background: #ffffff;
+    }
+
+    .alerts-content {
+      padding: 20px;
+    }
+
+    .alert-item {
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      border: 2px solid var(--border-black);
+    }
+
+    .alert-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .alert-item.critical {
+      background: rgba(220, 38, 38, 0.08);
+      border-color: var(--status-red);
+    }
+
+    .alert-item.warning {
+      background: rgba(245, 158, 11, 0.08);
+      border-color: var(--status-orange);
+    }
+
+    .alert-item.info {
+      background: rgba(45, 156, 219, 0.08);
+      border-color: var(--primary-accent);
+    }
+
+    .alert-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .alert-content {
+      flex: 1;
+    }
+
+    .alert-title {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .alert-item.critical .alert-title { color: var(--status-red); }
+    .alert-item.warning .alert-title { color: var(--status-orange); }
+    .alert-item.info .alert-title { color: var(--primary-accent); }
+
+    .alert-detail {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-medium);
+      line-height: 1.5;
+    }
+
+    /* Deliveries Panel */
+    .deliveries-panel {
+      background: var(--bg-white);
+      border-radius: 16px;
+      border: 2px solid var(--border-black);
+      overflow: hidden;
+    }
+
+    .deliveries-content {
+      padding: 20px;
+    }
+
+    .delivery-item {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .delivery-item:last-child {
+      border-bottom: none;
+    }
+
+    .delivery-status-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      border: 2px solid var(--border-black);
+    }
+
+    .delivery-status-icon.complete {
+      background: var(--status-green);
+      color: white;
+    }
+
+    .delivery-status-icon.in-transit {
+      background: var(--primary-accent);
+      color: white;
+      animation: pulse-live 1.5s ease-in-out infinite;
+    }
+
+    .delivery-status-icon.scheduled {
+      background: var(--bg-muted);
+      color: var(--text-medium);
+    }
+
+    .delivery-time {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      color: var(--text-dark);
+      width: 65px;
+    }
+
+    .delivery-route {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .delivery-tug {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      color: var(--primary-accent);
+    }
+
+    .delivery-arrow {
+      color: var(--text-light);
+      font-size: 1.2rem;
+    }
+
+    .delivery-destination {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-black);
+    }
+
+    .delivery-volume {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-medium);
+      width: 80px;
+      text-align: right;
+    }
+
+    .delivery-status-text {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      width: 85px;
+      text-align: right;
+    }
+
+    .delivery-status-text.complete { color: var(--status-green); }
+    .delivery-status-text.in-transit { color: var(--primary-accent); }
+    .delivery-status-text.scheduled { color: var(--text-light); }
+
+    .deliveries-summary {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 2px solid var(--border-black);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .summary-stat {
+      text-align: center;
+    }
+
+    .summary-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--primary-accent);
+    }
+
+    .summary-label {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--text-medium);
+      text-transform: uppercase;
+    }
+
+    /* ================================================================
+       RECOMMENDATIONS SECTION
+       ================================================================ */
+    .recommendations-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 1200px) {
+      .recommendations-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .rec-card {
+      background: var(--bg-white);
+      border-radius: 16px;
+      border: 2px solid var(--border-black);
+      overflow: hidden;
+    }
+
+    .rec-card.today {
+      border-color: var(--status-green);
+    }
+
+    .rec-card-header {
+      padding: 16px 24px;
+      background: var(--bg-light);
+      border-bottom: 2px solid var(--border-black);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .rec-card.today .rec-card-header {
+      background: var(--status-green);
+    }
+
+    .rec-date-badge {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      border: 2px solid var(--border-black);
+    }
+
+    .rec-date-badge.today-badge {
+      background: var(--header-dark);
+      color: #ffffff;
+    }
+
+    .rec-date-badge.forecast-badge {
+      background: var(--primary-accent);
+      color: #ffffff;
+    }
+
+    .rec-date {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+    }
+
+    .rec-card.today .rec-date {
+      color: #ffffff;
+    }
+
+    .rec-card-content {
+      padding: 20px 24px;
+    }
+
+    .rec-priority-label {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--status-green);
+      letter-spacing: 0.1em;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    .rec-items {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .rec-item {
+      display: flex;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 12px;
+      border: 2px solid var(--border-black);
+    }
+
+    .rec-item.critical {
+      background: rgba(220, 38, 38, 0.06);
+      border-color: var(--status-red);
+    }
+
+    .rec-item.action {
+      background: rgba(245, 158, 11, 0.06);
+      border-color: var(--status-orange);
+    }
+
+    .rec-item.info {
+      background: rgba(45, 156, 219, 0.06);
+      border-color: var(--primary-accent);
+    }
+
+    .rec-item-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .rec-item-content {
+      flex: 1;
+    }
+
+    .rec-item-title {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-black);
+      margin-bottom: 4px;
+    }
+
+    .rec-item-detail {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-medium);
+      line-height: 1.5;
+    }
+
+    .rec-summary {
+      display: flex;
+      justify-content: space-around;
+      padding-top: 20px;
+      border-top: 2px solid var(--border-light);
+    }
+
+    .rec-summary-stat {
+      text-align: center;
+    }
+
+    .rec-summary-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      color: var(--status-green);
+      display: block;
+    }
+
+    .rec-summary-label {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--text-medium);
+      text-transform: uppercase;
+    }
+
+    /* Forecast Grid */
+    .rec-forecast-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .forecast-day {
+      padding: 14px 18px;
+      border-radius: 10px;
+      background: var(--bg-light);
+      border: 2px solid var(--border-light);
+      transition: all 0.2s ease;
+    }
+
+    .forecast-day:hover {
+      border-color: var(--border-black);
+      transform: translateX(4px);
+    }
+
+    .forecast-day.active {
+      border-color: var(--status-orange);
+      background: rgba(245, 158, 11, 0.06);
+    }
+
+    .forecast-day.weekend {
+      opacity: 0.6;
+      border-style: dashed;
+    }
+
+    .forecast-day.critical-forecast {
+      border-color: var(--status-green);
+      background: rgba(34, 197, 94, 0.06);
+    }
+
+    .forecast-day-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .forecast-date {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      color: var(--text-black);
+      letter-spacing: 0.05em;
+    }
+
+    .forecast-demand {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: 2px solid var(--border-black);
+    }
+
+    .forecast-demand.peak {
+      background: var(--status-red);
+      color: #ffffff;
+    }
+
+    .forecast-demand.high {
+      background: var(--status-orange);
+      color: #ffffff;
+    }
+
+    .forecast-demand.normal {
+      background: var(--primary-accent);
+      color: #ffffff;
+    }
+
+    .forecast-demand.low {
+      background: var(--bg-muted);
+      color: var(--text-medium);
+    }
+
+    .forecast-rec {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-medium);
+      line-height: 1.4;
+    }
+
+    .forecast-rec strong {
+      color: var(--text-black);
+      font-weight: 700;
+    }
+
+    /* Insights */
+    .rec-insights {
+      padding-top: 20px;
+      border-top: 2px solid var(--border-black);
+    }
+
+    .insight-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      color: var(--primary-accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 14px;
+    }
+
+    .insight-items {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .insight-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+    }
+
+    .insight-icon {
+      font-size: 1.1rem;
+    }
+
+    /* ================================================================
+       SOURCE STATUS
+       ================================================================ */
+    .sources-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .sources-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .source-card {
+      background: var(--bg-white);
+      border-radius: 16px;
+      border: 2px solid var(--border-black);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .source-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 5px 5px 0 var(--border-black);
+    }
+
+    .source-card-header {
+      padding: 16px 20px;
+      background: var(--navy-dark);
+      border-bottom: 2px solid var(--border-black);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .source-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      color: #ffffff;
+      letter-spacing: 0.05em;
+    }
+
+    .source-rate {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--primary-accent);
+    }
+
+    .source-card-content {
+      padding: 20px;
+    }
+
+    .source-status {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .source-status-indicator {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--border-black);
+    }
+
+    .source-status-indicator.active {
+      background: var(--status-green);
+      animation: pulse-live 1.5s ease-in-out infinite;
+    }
+
+    .source-status-indicator.idle {
+      background: var(--bg-muted);
+    }
+
+    .source-status-text {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .source-status-text.active { color: var(--status-green); }
+    .source-status-text.idle { color: var(--text-medium); }
+
+    .source-activity {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text-medium);
+      line-height: 1.7;
+    }
+
+    .source-queue {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 2px solid var(--border-light);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-dark);
+    }
+
+    .source-queue strong {
+      color: var(--text-black);
+    }
+
+    /* ================================================================
+       7-DAY LOOK-AHEAD
+       ================================================================ */
+    .lookahead-section {
+      background: var(--bg-white);
+      border-radius: 16px;
+      border: 2px solid var(--border-black);
+      overflow: hidden;
+    }
+
+    .lookahead-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      padding: 20px;
+    }
+
+    @media (max-width: 1000px) {
+      .lookahead-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .lookahead-day {
+      text-align: center;
+      padding: 18px 10px;
+      border-radius: 12px;
+      background: var(--bg-light);
+      border: 2px solid var(--border-light);
+      transition: all 0.2s ease;
+    }
+
+    .lookahead-day:hover {
+      border-color: var(--border-black);
+      transform: translateY(-2px);
+    }
+
+    .lookahead-day.today {
+      background: var(--primary-accent);
+      border-color: var(--border-black);
+      box-shadow: 4px 4px 0 var(--border-black);
+    }
+
+    .lookahead-day.high-demand {
+      border-color: var(--status-orange);
+    }
+
+    .lookahead-day.off-day {
+      opacity: 0.5;
+      border-style: dashed;
+    }
+
+    .lookahead-date {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--text-medium);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .lookahead-day.today .lookahead-date {
+      color: #ffffff;
+    }
+
+    .lookahead-bar {
+      height: 50px;
+      background: var(--bg-white);
+      border: 2px solid var(--border-black);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .lookahead-day.today .lookahead-bar {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #ffffff;
+    }
+
+    .lookahead-bar-fill {
+      width: 100%;
+      border-radius: 4px 4px 0 0;
+      transition: height 0.3s ease;
+    }
+
+    .lookahead-bar-fill.low { background: var(--status-green); height: 30%; }
+    .lookahead-bar-fill.medium { background: var(--status-orange); height: 60%; }
+    .lookahead-bar-fill.high { background: var(--status-orange); height: 85%; }
+    .lookahead-bar-fill.peak { background: var(--status-red); height: 100%; }
+    .lookahead-bar-fill.off { background: var(--text-light); height: 15%; }
+
+    .lookahead-label {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--text-medium);
+      text-transform: uppercase;
+    }
+
+    .lookahead-day.today .lookahead-label {
+      color: #ffffff;
+    }
+
+    .lookahead-event {
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: var(--status-orange);
+      margin-top: 6px;
+    }
+
+    .lookahead-day.today .lookahead-event {
+      color: #ffffff;
+    }
+
+    /* ================================================================
+       CIRCLE BUTTON WITH ARROW
+       ================================================================ */
+    .circle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 10px 10px 20px;
+      background: transparent;
+      border: 2px solid var(--border-black);
+      border-radius: 30px;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-black);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .circle-btn:hover {
+      background: var(--primary-accent);
+      color: #ffffff;
+      border-color: var(--primary-accent);
+    }
+
+    .circle-btn-arrow {
+      width: 32px;
+      height: 32px;
+      background: var(--primary-accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 1rem;
+      transition: transform 0.2s ease;
+    }
+
+    .circle-btn:hover .circle-btn-arrow {
+      transform: translateX(4px);
+      background: var(--header-dark);
+    }
+  </style>
+</head>
+<body>
+  <!-- OPERATIONS HEADER -->
+  <header class="ops-header">
+    <div class="accent-stripe"></div>
+    <div class="header-content">
+      <div class="header-left">
+        <div class="logo-group">
+          <img src="SM-WHC Logo-core.png" alt="WHC Energy Services">
+          <div class="logo-divider"></div>
+          <img src="oneok-logo-png-transparent.png" alt="ONEOK">
+        </div>
+        <div>
+          <div class="header-title">Operations Center</div>
+          <div class="header-subtitle">Daily Field Operations Dashboard</div>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="datetime-display">
+          <div class="current-date" id="currentDate">Monday, July 6, 2026</div>
+          <div class="current-time" id="currentTime">12:00</div>
+          <div class="project-day">Day 41 of 109 • Week 6</div>
+        </div>
+
+        <div class="weather-display">
+          <div class="weather-icon">☀️</div>
+          <div class="weather-info">
+            <div class="weather-temp">78°F</div>
+            <div class="weather-condition">Clear Skies</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="live-indicator">
+          <div class="live-dot"></div>
+          <span class="live-text">Live Data</span>
+        </div>
+        <div class="mode-badge">Operations Mode</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="ops-container">
+    <!-- OPERATIONS MAP -->
+    <section class="map-section">
+      <div class="map-header">
+        <div class="section-title">Live Asset Positions</div>
+        <div class="map-meta">
+          <div class="map-meta-item">
+            <span class="map-meta-dot"></span>
+            Real-time tracking
+          </div>
+          <div class="map-meta-item">
+            Last update: <strong style="color: #fff; margin-left: 4px;">14:32:15</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="map-container" id="geoMapContainer">
+        <!-- Map Stats Overlay -->
+        <div class="map-stats">
+          <div class="map-stat">
+            <div class="map-stat-value">3</div>
+            <div class="map-stat-label">Active HDDs</div>
+          </div>
+          <div class="map-stat">
+            <div class="map-stat-value">4</div>
+            <div class="map-stat-label">Tugs Deployed</div>
+          </div>
+          <div class="map-stat">
+            <div class="map-stat-value">1</div>
+            <div class="map-stat-label">In Transit</div>
+          </div>
+        </div>
+
+        <!-- SVG for route lines (drawn via JS) -->
+        <svg id="routeLinesSvg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 4;"></svg>
+
+        <!-- Source 1 Marker - Geo-positioned -->
+        <div class="map-element source-marker" id="geo-source1">
+          <div class="source-marker-icon">💧</div>
+          <div class="source-marker-label">Source 1 • 800 GPM</div>
+        </div>
+
+        <!-- Source 2 Marker - Geo-positioned -->
+        <div class="map-element source-marker" id="geo-source2">
+          <div class="source-marker-icon">💧</div>
+          <div class="source-marker-label">Source 2 • 200 GPM</div>
+        </div>
+
+        <!-- Source 3 Marker - Geo-positioned -->
+        <div class="map-element source-marker" id="geo-source3">
+          <div class="source-marker-icon">💧</div>
+          <div class="source-marker-label">Source 3 • 400 GPM</div>
+        </div>
+
+        <!-- HDD23 Marker - Red Rig, Pilot - Geo-positioned (July 6, 2026) -->
+        <div class="map-element hdd-marker" id="geo-HDD23">
+          <div class="hdd-marker-icon red">
+            HDD23
+            <div class="hdd-marker-phase">PILOT</div>
+            <div class="hdd-marker-storage">
+              <div class="hdd-marker-storage-fill healthy" style="width: 100%;"></div>
+            </div>
+          </div>
+          <div class="hdd-marker-label">100% • 21h supply</div>
+        </div>
+
+        <!-- HDD19 Marker - Blue Rig, RigUp - Geo-positioned -->
+        <div class="map-element hdd-marker" id="geo-HDD19">
+          <div class="hdd-marker-icon blue staging">
+            HDD19
+            <div class="hdd-marker-phase">RIG UP</div>
+            <div class="hdd-marker-storage">
+              <div class="hdd-marker-storage-fill healthy" style="width: 100%;"></div>
+            </div>
+          </div>
+          <div class="hdd-marker-label">Pre-Staged • 100%</div>
+        </div>
+
+        <!-- HDD21 Marker - Green Rig, RigUp (Staging) - Geo-positioned -->
+        <div class="map-element hdd-marker" id="geo-HDD21">
+          <div class="hdd-marker-icon green staging">
+            HDD21
+            <div class="hdd-marker-phase">RIG UP</div>
+            <div class="hdd-marker-storage">
+              <div class="hdd-marker-storage-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+          <div class="hdd-marker-label" style="color: var(--text-light);">Awaiting Storage</div>
+        </div>
+
+        <!-- TUG-1 Marker - Idle at Source 3 - July 6, 2026 -->
+        <div class="map-element tug-marker" id="geo-tug1">
+          <div class="tug-marker-icon idle">🚢</div>
+          <div class="tug-marker-label">T1</div>
+          <div class="tug-marker-status">Idle • Available</div>
+        </div>
+
+        <!-- TUG-2 Marker - On-Site at HDD23 - July 6, 2026 -->
+        <div class="map-element tug-marker" id="geo-tug2">
+          <div class="tug-marker-icon on-site">🚢</div>
+          <div class="tug-marker-label">T2</div>
+          <div class="tug-marker-status">Throttled • HDD23</div>
+        </div>
+
+        <!-- Map Legend -->
+        <div class="map-legend">
+          <div class="legend-title">Legend</div>
+          <div class="legend-items">
+            <div class="legend-item">
+              <div class="legend-dot blue"></div>
+              Blue Rig
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot green"></div>
+              Green Rig
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot source"></div>
+              Water Source
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot tug"></div>
+              Tug
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACTIVE HDDs SECTION - Real Data for July 6, 2026 -->
+    <section>
+      <div class="section-title" style="margin-bottom: 20px;">Active HDD Crossings <span class="zigzag"></span></div>
+      <div class="hdd-grid">
+        <!-- HDD23 - Red Rig (Active Drilling) -->
+        <div class="hdd-card rig-red">
+          <div class="hdd-card-accent"></div>
+          <div class="hdd-card-content">
+            <div class="hdd-header">
+              <div>
+                <div class="hdd-name">HDD23</div>
+                <div class="hdd-rig red">Red Rig</div>
+              </div>
+              <div class="phase-badge phase-pilot">Pilot</div>
+            </div>
+            <div class="hdd-stats">
+              <div class="stat-item">
+                <div class="stat-value">7,500</div>
+                <div class="stat-label">GPH Consumption</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">Day 3</div>
+                <div class="stat-label">of 7 Pilot Days</div>
+              </div>
+            </div>
+            <div class="storage-bar-container">
+              <div class="storage-bar-header">
+                <span class="storage-level">160,000 gal</span>
+                <span class="storage-capacity">/ 160,000 capacity</span>
+              </div>
+              <div class="storage-bar">
+                <div class="storage-bar-fill healthy" style="width: 100%;"></div>
+              </div>
+            </div>
+            <div class="hdd-footer">
+              <div class="supply-hours">
+                <span class="supply-hours-value healthy">21</span>
+                <span class="supply-hours-label">hrs supply</span>
+              </div>
+              <div class="next-delivery">
+                <div class="next-delivery-label">Tug On-Site</div>
+                <div class="next-delivery-value" style="color: var(--status-green);">T2 Pumping</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HDD19 - Blue Rig (Staging - 100% Pre-Staged) -->
+        <div class="hdd-card rig-blue">
+          <div class="hdd-card-accent"></div>
+          <div class="hdd-card-content">
+            <div class="hdd-header">
+              <div>
+                <div class="hdd-name">HDD19</div>
+                <div class="hdd-rig blue">Blue Rig</div>
+              </div>
+              <div class="phase-badge phase-rigup">Rig Up</div>
+            </div>
+            <div class="hdd-stats">
+              <div class="stat-item">
+                <div class="stat-value" style="color: var(--text-light);">0</div>
+                <div class="stat-label">GPH (Staging)</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">Day 5</div>
+                <div class="stat-label">of 7 Rig Up Days</div>
+              </div>
+            </div>
+            <div class="storage-bar-container">
+              <div class="storage-bar-header">
+                <span class="storage-level">300,000 gal</span>
+                <span class="storage-capacity">/ 300,000 capacity</span>
+              </div>
+              <div class="storage-bar">
+                <div class="storage-bar-fill healthy" style="width: 100%;"></div>
+              </div>
+            </div>
+            <div class="hdd-footer">
+              <div class="supply-hours">
+                <span class="supply-hours-value healthy">✓</span>
+                <span class="supply-hours-label">Pre-Staged</span>
+              </div>
+              <div class="next-delivery">
+                <div class="next-delivery-label">Pilot Starts</div>
+                <div class="next-delivery-value">Jul 9</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HDD21 - Green Rig (Early Staging - Storage Pending) -->
+        <div class="hdd-card rig-green">
+          <div class="hdd-card-accent"></div>
+          <div class="hdd-card-content">
+            <div class="hdd-header">
+              <div>
+                <div class="hdd-name">HDD21</div>
+                <div class="hdd-rig green">Green Rig</div>
+              </div>
+              <div class="phase-badge phase-rigup">Rig Up</div>
+            </div>
+            <div class="hdd-stats">
+              <div class="stat-item">
+                <div class="stat-value" style="color: var(--text-light);">0</div>
+                <div class="stat-label">GPH (Staging)</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">Day 1</div>
+                <div class="stat-label">of 14 Rig Up Days</div>
+              </div>
+            </div>
+            <div class="storage-bar-container">
+              <div class="storage-bar-header">
+                <span class="storage-level" style="color: var(--text-light);">0 gal</span>
+                <span class="storage-capacity">/ 300,000 capacity</span>
+              </div>
+              <div class="storage-bar">
+                <div class="storage-bar-fill" style="width: 0%;"></div>
+              </div>
+            </div>
+            <div class="hdd-footer">
+              <div class="supply-hours">
+                <span class="supply-hours-value" style="color: var(--text-light);">—</span>
+                <span class="supply-hours-label">Awaiting Storage</span>
+              </div>
+              <div class="next-delivery">
+                <div class="next-delivery-label">Pilot Starts</div>
+                <div class="next-delivery-value">Jul 20</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLEET STATUS - Real Data for July 6, 2026 -->
+    <section class="fleet-section">
+      <div class="card-header">
+        <div class="section-title">Fleet Status <span class="zigzag"></span></div>
+      </div>
+      <table class="fleet-table">
+        <thead>
+          <tr>
+            <th>Asset</th>
+            <th>Status</th>
+            <th>Cargo</th>
+            <th>ETA / Completion</th>
+            <th>Progress</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="tug-id">
+                <span class="tug-icon">🚢</span>
+                TUG-1
+              </div>
+            </td>
+            <td>
+              <div class="status-cell">
+                <div class="status-icon idle">💤</div>
+                <div>
+                  <div class="status-text">Idle at Source 3</div>
+                  <div class="status-detail">Available for dispatch</div>
+                </div>
+              </div>
+            </td>
+            <td class="cargo-cell">0 barges</td>
+            <td class="eta-cell" style="color: var(--status-green);">Available</td>
+            <td class="progress-cell">
+              <div style="font-family: 'Work Sans'; font-size: 0.75rem; font-weight: 700; color: var(--status-green); text-transform: uppercase;">READY</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="tug-id">
+                <span class="tug-icon">🚢</span>
+                TUG-2
+              </div>
+            </td>
+            <td>
+              <div class="status-cell">
+                <div class="status-icon on-site">📍</div>
+                <div>
+                  <div class="status-text">On-Site at HDD23</div>
+                  <div class="status-detail">Throttled pumping • 1000 GPM</div>
+                </div>
+              </div>
+            </td>
+            <td class="cargo-cell">1 × 80K gal</td>
+            <td class="eta-cell">Maintaining supply</td>
+            <td class="progress-cell">
+              <div class="progress-mini">
+                <div class="progress-mini-fill" style="width: 100%;"></div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ALERTS & DELIVERIES - Real Data for July 6, 2026 -->
+    <section class="two-col-grid">
+      <!-- Alerts Panel -->
+      <div class="alerts-panel">
+        <div class="alerts-header">
+          <div class="section-title">Alerts & Actions</div>
+        </div>
+        <div class="alerts-content">
+          <div class="alert-item info">
+            <div class="alert-icon">ℹ️</div>
+            <div class="alert-content">
+              <div class="alert-title">HDD19 Rig-Up in Progress</div>
+              <div class="alert-detail">Blue Rig in rigUp phase. Storage: 100% pre-staged for July 9 pilot start.</div>
+            </div>
+          </div>
+
+          <div class="alert-item info">
+            <div class="alert-icon">ℹ️</div>
+            <div class="alert-content">
+              <div class="alert-title">HDD21 Rig-Up in Progress</div>
+              <div class="alert-detail">Green Rig in rigUp phase (Day 1 of 14). Storage delivery pending - pilot starts July 20.</div>
+            </div>
+          </div>
+
+          <div class="alert-item info">
+            <div class="alert-icon">ℹ️</div>
+            <div class="alert-content">
+              <div class="alert-title">HDD19 Pilot Start in 3 Days</div>
+              <div class="alert-detail">Blue Rig scheduled to begin pilot drilling. Storage verified pre-staged at 100%.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's Deliveries - Real Data for July 6, 2026 -->
+      <div class="deliveries-panel">
+        <div class="card-header">
+          <div class="section-title">Today's Deliveries <span class="zigzag"></span></div>
+        </div>
+        <div class="deliveries-content">
+          <div class="delivery-item">
+            <div class="delivery-status-icon complete">✓</div>
+            <div class="delivery-time">On-Site</div>
+            <div class="delivery-route">
+              <span class="delivery-tug">T2</span>
+              <span class="delivery-arrow">→</span>
+              <span class="delivery-destination">HDD23</span>
+            </div>
+            <div class="delivery-volume">Throttled</div>
+            <div class="delivery-status-text complete">Maintaining Supply</div>
+          </div>
+
+          <div style="padding: 20px; text-align: center; color: var(--text-medium); font-style: italic;">
+            T2 is on throttled standby at HDD23, pumping small amounts to match rig consumption rate. No additional scheduled deliveries today.
+          </div>
+
+          <div class="deliveries-summary">
+            <div class="summary-stat">
+              <div class="summary-value">0</div>
+              <div class="summary-label">Scheduled</div>
+            </div>
+            <div class="summary-stat">
+              <div class="summary-value">1</div>
+              <div class="summary-label">On-Site</div>
+            </div>
+            <div class="summary-stat">
+              <div class="summary-value">1</div>
+              <div class="summary-label">Standby</div>
+            </div>
+            <div class="summary-stat">
+              <div class="summary-value">—</div>
+              <div class="summary-label">Light Activity Day</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DAILY RECOMMENDATIONS -->
+    <section>
+      <div class="section-title" style="margin-bottom: 20px;">Operational Recommendations <span class="zigzag"></span></div>
+
+      <div class="recommendations-grid">
+        <!-- Today's Priority Actions - Real Data for July 6, 2026 -->
+        <div class="rec-card today">
+          <div class="rec-card-header">
+            <div class="rec-date-badge today-badge">TODAY</div>
+            <div class="rec-date">July 6, 2026</div>
+          </div>
+          <div class="rec-card-content">
+            <div class="rec-priority-label">PRIORITY ACTIONS</div>
+            <div class="rec-items">
+              <div class="rec-item info">
+                <div class="rec-item-icon">🔵</div>
+                <div class="rec-item-content">
+                  <div class="rec-item-title">Maintain HDD23 Steady State</div>
+                  <div class="rec-item-detail">21h supply buffer is healthy. T2 on throttled standby maintaining storage. Continue scheduled delivery rotations.</div>
+                </div>
+              </div>
+              <div class="rec-item info">
+                <div class="rec-item-icon">🔵</div>
+                <div class="rec-item-content">
+                  <div class="rec-item-title">HDD19 Pre-Staged Complete</div>
+                  <div class="rec-item-detail">Blue Rig storage at 100% for July 9 pilot start. No action needed - monitoring only.</div>
+                </div>
+              </div>
+              <div class="rec-item action">
+                <div class="rec-item-icon">🟡</div>
+                <div class="rec-item-content">
+                  <div class="rec-item-title">Schedule HDD21 Storage Delivery</div>
+                  <div class="rec-item-detail">Green Rig begins pilot July 20. Storage barges should be positioned 2 days prior. Plan delivery route.</div>
+                </div>
+              </div>
+            </div>
+            <div class="rec-summary">
+              <div class="rec-summary-stat">
+                <span class="rec-summary-value">0</span>
+                <span class="rec-summary-label">Deliveries</span>
+              </div>
+              <div class="rec-summary-stat">
+                <span class="rec-summary-value">—</span>
+                <span class="rec-summary-label">Light Activity</span>
+              </div>
+              <div class="rec-summary-stat">
+                <span class="rec-summary-value">2</span>
+                <span class="rec-summary-label">Tugs Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7-Day Forecast Recommendations -->
+        <div class="rec-card forecast">
+          <div class="rec-card-header">
+            <div class="rec-date-badge forecast-badge">7-DAY OUTLOOK</div>
+            <div class="rec-date">July 6 - 12, 2026</div>
+          </div>
+          <div class="rec-card-content">
+            <div class="rec-forecast-grid">
+              <!-- Day 1 -->
+              <div class="forecast-day active">
+                <div class="forecast-day-header">
+                  <span class="forecast-date">Jul 7</span>
+                  <span class="forecast-demand normal">NORMAL</span>
+                </div>
+                <div class="forecast-rec">
+                  <strong>Standard operations</strong> - HDD23 pilot continues. Throttled standby maintains storage efficiently.
+                </div>
+              </div>
+
+              <!-- Day 2 -->
+              <div class="forecast-day">
+                <div class="forecast-day-header">
+                  <span class="forecast-date">Jul 8</span>
+                  <span class="forecast-demand normal">NORMAL</span>
+                </div>
+                <div class="forecast-rec">
+                  <strong>Pre-position for HDD19</strong> - Verify all systems ready for Blue Rig pilot start tomorrow.
+                </div>
+              </div>
+
+              <!-- Day 3 -->
+              <div class="forecast-day critical-forecast">
+                <div class="forecast-day-header">
+                  <span class="forecast-date">Jul 9</span>
+                  <span class="forecast-demand high">HIGH</span>
+                </div>
+                <div class="forecast-rec">
+                  <strong>HDD19 Pilot Start</strong> - Blue Rig begins drilling. 7,500 GPH demand. 2 HDDs now consuming water.
+                </div>
+              </div>
+
+              <!-- Day 4 -->
+              <div class="forecast-day">
+                <div class="forecast-day-header">
+                  <span class="forecast-date">Jul 10</span>
+                  <span class="forecast-demand high">HIGH</span>
+                </div>
+                <div class="forecast-rec">
+                  <strong>Dual HDD operations</strong> - Both HDD23 and HDD19 active. Monitor storage levels closely.
+                </div>
+              </div>
+
+              <!-- Day 5 -->
+              <div class="forecast-day">
+                <div class="forecast-day-header">
+                  <span class="forecast-date">Jul 11</span>
+                  <span class="forecast-demand peak">PEAK</span>
+                </div>
+                <div class="forecast-rec">
+                  <strong>HDD23 Ream transition</strong> - Red Rig moves to ream phase (20K GPH). Increase delivery frequency.
+                </div>
+              </div>
+
+              <!-- Day 6 -->
+              <div class="forecast-day weekend">
+                <div class="forecast-day-header">
+                  <span class="forecast-date">Jul 12</span>
+                  <span class="forecast-demand low">SUN</span>
+                </div>
+                <div class="forecast-rec">
+                  <strong>HDD21 Pilot Start</strong> - Blue Rig moves to HDD21. Coordinate storage handoff and tug redeployment.
+                </div>
+              </div>
+
+              <!-- Day 7 -->
+              <div class="forecast-day">
+                <div class="forecast-day-header">
+                  <span class="forecast-date">May 27</span>
+                  <span class="forecast-demand normal">NORMAL</span>
+                </div>
+                <div class="forecast-rec">
+                  <strong>4 HDD parallel ops</strong> - Full fleet utilization. Monitor Source 1 capacity constraints.
+                </div>
+              </div>
+            </div>
+
+            <div class="rec-insights">
+              <div class="insight-title">KEY INSIGHTS</div>
+              <div class="insight-items">
+                <div class="insight-item">
+                  <span class="insight-icon">📊</span>
+                  <span>Peak demand May 21-22 requires overnight pre-fills</span>
+                </div>
+                <div class="insight-item">
+                  <span class="insight-icon">🔄</span>
+                  <span>Phase transitions at HDD18 (May 22) and HDD21 start (May 26)</span>
+                </div>
+                <div class="insight-item">
+                  <span class="insight-icon">⚡</span>
+                  <span>Consider T5 mobilization by May 24 for 4-HDD coverage</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOURCE STATUS -->
+    <section>
+      <div class="section-title" style="margin-bottom: 20px;">Source Status <span class="zigzag"></span></div>
+      <div class="sources-grid">
+        <div class="source-card">
+          <div class="source-card-header">
+            <span class="source-name">Source 1</span>
+            <span class="source-rate">800 GPM</span>
+          </div>
+          <div class="source-card-content">
+            <div class="source-status">
+              <div class="source-status-indicator active"></div>
+              <span class="source-status-text active">Active - Filling</span>
+            </div>
+            <div class="source-activity">
+              T2 currently filling<br>
+              Est. completion: 15:30<br>
+              2h remaining at 800 GPM
+            </div>
+            <div class="source-queue">
+              <strong>Queue:</strong> T4 waiting
+            </div>
+          </div>
+        </div>
+
+        <div class="source-card">
+          <div class="source-card-header">
+            <span class="source-name">Source 2</span>
+            <span class="source-rate">200 GPM</span>
+          </div>
+          <div class="source-card-content">
+            <div class="source-status">
+              <div class="source-status-indicator idle"></div>
+              <span class="source-status-text idle">Idle - Available</span>
+            </div>
+            <div class="source-activity">
+              No active filling<br>
+              Ready for dispatch<br>
+              Last used: 11:45
+            </div>
+            <div class="source-queue">
+              <strong>Queue:</strong> Empty
+            </div>
+          </div>
+        </div>
+
+        <div class="source-card">
+          <div class="source-card-header">
+            <span class="source-name">Source 3</span>
+            <span class="source-rate">400 GPM</span>
+          </div>
+          <div class="source-card-content">
+            <div class="source-status">
+              <div class="source-status-indicator idle"></div>
+              <span class="source-status-text idle">Idle - Available</span>
+            </div>
+            <div class="source-activity">
+              No active filling<br>
+              Ready for dispatch<br>
+              Last used: 09:15
+            </div>
+            <div class="source-queue">
+              <strong>Queue:</strong> Empty
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7-DAY LOOK-AHEAD -->
+    <section class="lookahead-section">
+      <div class="card-header">
+        <div class="section-title">7-Day Look-Ahead <span class="zigzag"></span></div>
+      </div>
+      <div class="lookahead-grid">
+        <div class="lookahead-day today">
+          <div class="lookahead-date">May 20</div>
+          <div class="lookahead-bar">
+            <div class="lookahead-bar-fill high"></div>
+          </div>
+          <div class="lookahead-label">Today</div>
+          <div class="lookahead-event">3 Active</div>
+        </div>
+
+        <div class="lookahead-day high-demand">
+          <div class="lookahead-date">May 21</div>
+          <div class="lookahead-bar">
+            <div class="lookahead-bar-fill peak"></div>
+          </div>
+          <div class="lookahead-label">Peak</div>
+          <div class="lookahead-event">Max Demand</div>
+        </div>
+
+        <div class="lookahead-day">
+          <div class="lookahead-date">May 22</div>
+          <div class="lookahead-bar">
+            <div class="lookahead-bar-fill high"></div>
+          </div>
+          <div class="lookahead-label">High</div>
+          <div class="lookahead-event">HDD18→Swab</div>
+        </div>
+
+        <div class="lookahead-day">
+          <div class="lookahead-date">May 23</div>
+          <div class="lookahead-bar">
+            <div class="lookahead-bar-fill medium"></div>
+          </div>
+          <div class="lookahead-label">Normal</div>
+        </div>
+
+        <div class="lookahead-day">
+          <div class="lookahead-date">May 24</div>
+          <div class="lookahead-bar">
+            <div class="lookahead-bar-fill medium"></div>
+          </div>
+          <div class="lookahead-label">Normal</div>
+        </div>
+
+        <div class="lookahead-day off-day">
+          <div class="lookahead-date">May 25</div>
+          <div class="lookahead-bar">
+            <div class="lookahead-bar-fill off"></div>
+          </div>
+          <div class="lookahead-label">Sunday</div>
+          <div class="lookahead-event">Reduced</div>
+        </div>
+
+        <div class="lookahead-day">
+          <div class="lookahead-date">May 26</div>
+          <div class="lookahead-bar">
+            <div class="lookahead-bar-fill high"></div>
+          </div>
+          <div class="lookahead-label">High</div>
+          <div class="lookahead-event">HDD21 Start</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Load route data for geographic positioning -->
+  <script src="route-data.js"></script>
+
+  <script>
+    // Update time every second
+    function updateTime() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      document.getElementById('currentTime').textContent = `${hours}:${minutes}`;
+    }
+
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // Geographic coordinate transformation
+    const transformCoord = (lng, lat) => {
+      const baseScaleX = 1164.3;
+      const baseScaleY = -1321.5;
+      const refX = 555, refY = 172;
+      const refLng = -94.93274, refLat = 29.71193;
+      const scaleX = baseScaleX * 1.22;
+      const scaleY = baseScaleY * 1.26;
+      const x = refX + scaleX * (lng - refLng) + 169;
+      const y = refY + scaleY * (lat - refLat) + 137;
+      return { x, y };
+    };
+
+    // Initialize map with real geographic positions
+    function initGeoMap() {
+      const mapContainer = document.getElementById('geoMapContainer');
+      if (!mapContainer || typeof MULTI_SOURCE_ROUTES === 'undefined') {
+        console.warn('Map container or route data not available');
+        return;
+      }
+
+      const containerWidth = mapContainer.offsetWidth || 1200;
+      const containerHeight = mapContainer.offsetHeight || 500;
+
+      let minLng = Infinity, maxLng = -Infinity;
+      let minLat = Infinity, maxLat = -Infinity;
+
+      ['source1', 'source2', 'source3'].forEach(srcId => {
+        const loc = MULTI_SOURCE_ROUTES[srcId].location;
+        minLng = Math.min(minLng, loc.lng);
+        maxLng = Math.max(maxLng, loc.lng);
+        minLat = Math.min(minLat, loc.lat);
+        maxLat = Math.max(maxLat, loc.lat);
+      });
+
+      Object.keys(MULTI_SOURCE_ROUTES.source1.routes).forEach(hdd => {
+        const route = MULTI_SOURCE_ROUTES.source1.routes[hdd];
+        if (route && route.length > 0) {
+          const endpoint = route[route.length - 1];
+          minLng = Math.min(minLng, endpoint[0]);
+          maxLng = Math.max(maxLng, endpoint[0]);
+          minLat = Math.min(minLat, endpoint[1]);
+          maxLat = Math.max(maxLat, endpoint[1]);
+        }
+      });
+
+      const lngPadding = (maxLng - minLng) * 0.15;
+      const latPadding = (maxLat - minLat) * 0.15;
+      minLng -= lngPadding;
+      maxLng += lngPadding;
+      minLat -= latPadding;
+      maxLat += latPadding;
+
+      const lngRange = maxLng - minLng;
+      const latRange = maxLat - minLat;
+      const scaleX = containerWidth / lngRange;
+      const scaleY = containerHeight / latRange;
+
+      const transformToMap = (lng, lat) => {
+        const x = (lng - minLng) * scaleX;
+        const y = (maxLat - lat) * scaleY;
+        return { x, y };
+      };
+
+      const sources = {
+        source1: MULTI_SOURCE_ROUTES.source1.location,
+        source2: MULTI_SOURCE_ROUTES.source2.location,
+        source3: MULTI_SOURCE_ROUTES.source3.location
+      };
+
+      const hddLocations = {};
+      Object.keys(MULTI_SOURCE_ROUTES.source1.routes).forEach(hdd => {
+        const route = MULTI_SOURCE_ROUTES.source1.routes[hdd];
+        if (route && route.length > 0) {
+          const endpoint = route[route.length - 1];
+          hddLocations[hdd] = { lng: endpoint[0], lat: endpoint[1] };
+        }
+      });
+
+      ['source1', 'source2', 'source3'].forEach((srcId, idx) => {
+        const marker = document.getElementById(`geo-${srcId}`);
+        if (marker && sources[srcId]) {
+          const pos = transformToMap(sources[srcId].lng, sources[srcId].lat);
+          marker.style.left = `${pos.x}px`;
+          marker.style.top = `${pos.y}px`;
+        }
+      });
+
+      // Position HDD markers for July 6, 2026: HDD23, HDD19, HDD21
+      ['HDD23', 'HDD19', 'HDD21'].forEach(hdd => {
+        const marker = document.getElementById(`geo-${hdd}`);
+        if (marker && hddLocations[hdd]) {
+          const pos = transformToMap(hddLocations[hdd].lng, hddLocations[hdd].lat);
+          marker.style.left = `${pos.x}px`;
+          marker.style.top = `${pos.y}px`;
+        }
+      });
+
+      // T1 - Idle at Source 3
+      const t1Marker = document.getElementById('geo-tug1');
+      if (t1Marker) {
+        const pos = transformToMap(sources.source3.lng, sources.source3.lat);
+        t1Marker.style.left = `${pos.x + 30}px`;
+        t1Marker.style.top = `${pos.y}px`;
+      }
+
+      // T2 - On-site at HDD23 (throttled standby)
+      if (hddLocations['HDD23']) {
+        const t2Marker = document.getElementById('geo-tug2');
+        if (t2Marker) {
+          const pos = transformToMap(hddLocations['HDD23'].lng, hddLocations['HDD23'].lat);
+          t2Marker.style.left = `${pos.x + 30}px`;
+          t2Marker.style.top = `${pos.y + 5}px`;
+        }
+      }
+
+      const svg = document.getElementById('routeLinesSvg');
+      if (svg) {
+        svg.innerHTML = '';
+
+        const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+        defs.innerHTML = `
+          <linearGradient id="routeGradientActive" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color: #2d9cdb; stop-opacity: 0.3"/>
+            <stop offset="50%" style="stop-color: #22c55e; stop-opacity: 1"/>
+            <stop offset="100%" style="stop-color: #2d9cdb; stop-opacity: 0.3"/>
+          </linearGradient>
+        `;
+        svg.appendChild(defs);
+
+        Object.keys(sources).forEach(srcId => {
+          const srcPos = transformToMap(sources[srcId].lng, sources[srcId].lat);
+          Object.keys(hddLocations).forEach(hdd => {
+            const hddPos = transformToMap(hddLocations[hdd].lng, hddLocations[hdd].lat);
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', srcPos.x);
+            line.setAttribute('y1', srcPos.y);
+            line.setAttribute('x2', hddPos.x);
+            line.setAttribute('y2', hddPos.y);
+            line.setAttribute('stroke', 'rgba(30, 58, 95, 0.2)');
+            line.setAttribute('stroke-width', '2');
+            line.setAttribute('stroke-dasharray', '6,4');
+            svg.appendChild(line);
+          });
+        });
+
+        // Active route: Source 3 to HDD23 (where T2 is throttled)
+        if (hddLocations['HDD23']) {
+          const srcPos = transformToMap(sources.source3.lng, sources.source3.lat);
+          const hddPos = transformToMap(hddLocations['HDD23'].lng, hddLocations['HDD23'].lat);
+          const activeLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          activeLine.setAttribute('x1', srcPos.x);
+          activeLine.setAttribute('y1', srcPos.y);
+          activeLine.setAttribute('x2', hddPos.x);
+          activeLine.setAttribute('y2', hddPos.y);
+          activeLine.setAttribute('stroke', 'url(#routeGradientActive)');
+          activeLine.setAttribute('stroke-width', '4');
+          activeLine.setAttribute('stroke-dasharray', '10,5');
+          activeLine.setAttribute('opacity', '0.9');
+
+          const animate = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+          animate.setAttribute('attributeName', 'stroke-dashoffset');
+          animate.setAttribute('values', '0;-30');
+          animate.setAttribute('dur', '1s');
+          animate.setAttribute('repeatCount', 'indefinite');
+          activeLine.appendChild(animate);
+          svg.appendChild(activeLine);
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initGeoMap);
+  </script>
+</body>
+</html>

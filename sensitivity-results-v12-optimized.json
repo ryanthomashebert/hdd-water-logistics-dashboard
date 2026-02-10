@@ -1,0 +1,462 @@
+{
+  "baseline": {
+    "cost": 1982071.6666666963,
+    "ranDry": 0,
+    "fleet": {
+      "numSmallTugs": 2,
+      "numSmallTransportBarges": 0,
+      "numSmallStorageBarges": 2,
+      "numLargeTransport": 2,
+      "numLargeStorage": 2
+    }
+  },
+  "timestamp": "2026-02-03T19:00:24.607Z",
+  "tests": {
+    "Water Consumption": [
+      {
+        "label": "-20%",
+        "cost": 1364304.1666666637,
+        "ranDry": 0,
+        "costDiff": -617767.5000000326,
+        "costDiffPct": -31.167768067587033,
+        "fleet": {
+          "numSmallTugs": 1,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 1,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "-10%",
+        "cost": 1988250.0794392524,
+        "ranDry": 0,
+        "costDiff": 6178.412772556068,
+        "costDiffPct": 0.3117149029705103,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 2,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 1,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "Baseline",
+        "cost": 1982071.6666666963,
+        "ranDry": 0,
+        "costDiff": 0,
+        "costDiffPct": 0,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "+10%",
+        "cost": 2653038.333332938,
+        "ranDry": 0,
+        "costDiff": 670966.6666662418,
+        "costDiffPct": 33.851786388462166,
+        "fleet": {
+          "numSmallTugs": 4,
+          "numSmallTransportBarges": 1,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 1,
+          "numLargeStorage": 3
+        }
+      },
+      {
+        "label": "+20%",
+        "cost": 2800875.500000219,
+        "ranDry": 0,
+        "costDiff": 818803.8333335225,
+        "costDiffPct": 41.31050592688846,
+        "fleet": {
+          "numSmallTugs": 3,
+          "numSmallTransportBarges": 2,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "+30%",
+        "cost": 3118240.374999677,
+        "ranDry": 0,
+        "costDiff": 1136168.7083329805,
+        "costDiffPct": 57.322281905361486,
+        "fleet": {
+          "numSmallTugs": 4,
+          "numSmallTransportBarges": 1,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      }
+    ],
+    "Downtime Cost": [
+      {
+        "label": "$5,000/hr",
+        "cost": 1982071.6666666963,
+        "ranDry": 0,
+        "costDiff": 0,
+        "costDiffPct": 0,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$6,000/hr",
+        "cost": 1982071.6666666963,
+        "ranDry": 0,
+        "costDiff": 0,
+        "costDiffPct": 0,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$6,591/hr (base)",
+        "cost": 1982071.6666666963,
+        "ranDry": 0,
+        "costDiff": 0,
+        "costDiffPct": 0,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$7,500/hr",
+        "cost": 1982071.6666666963,
+        "ranDry": 0,
+        "costDiff": 0,
+        "costDiffPct": 0,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$8,500/hr",
+        "cost": 1982071.6666666963,
+        "ranDry": 0,
+        "costDiff": 0,
+        "costDiffPct": 0,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$10,000/hr",
+        "cost": 1982071.6666666963,
+        "ranDry": 0,
+        "costDiff": 0,
+        "costDiffPct": 0,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      }
+    ],
+    "Tug Day Rate": [
+      {
+        "label": "$3,500",
+        "cost": 1794071.6666666963,
+        "ranDry": 0,
+        "costDiff": -188000,
+        "costDiffPct": -9.485025348057404,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$4,000",
+        "cost": 1888071.6666666963,
+        "ranDry": 0,
+        "costDiff": -94000,
+        "costDiffPct": -4.742512674028702,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$4,500 (base)",
+        "cost": 1982071.6666666963,
+        "ranDry": 0,
+        "costDiff": 0,
+        "costDiffPct": 0,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$5,000",
+        "cost": 2076071.6666666963,
+        "ranDry": 0,
+        "costDiff": 94000,
+        "costDiffPct": 4.742512674028702,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$5,500",
+        "cost": 2170071.6666666963,
+        "ranDry": 0,
+        "costDiff": 188000,
+        "costDiffPct": 9.485025348057404,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$6,000",
+        "cost": 2264071.6666666963,
+        "ranDry": 0,
+        "costDiff": 282000,
+        "costDiffPct": 14.227538022086106,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      }
+    ],
+    "Large Barge Day Rate": [
+      {
+        "label": "$600",
+        "cost": 1929271.6666666963,
+        "ranDry": 0,
+        "costDiff": -52800,
+        "costDiffPct": -2.66387945945442,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$750 (base)",
+        "cost": 1982071.6666666963,
+        "ranDry": 0,
+        "costDiff": 0,
+        "costDiffPct": 0,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$900",
+        "cost": 2034871.6666666963,
+        "ranDry": 0,
+        "costDiff": 52800,
+        "costDiffPct": 2.66387945945442,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$1,000",
+        "cost": 2070071.6666666963,
+        "ranDry": 0,
+        "costDiff": 88000,
+        "costDiffPct": 4.4397990990907,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      }
+    ],
+    "Small Barge Day Rate": [
+      {
+        "label": "$200",
+        "cost": 1974271.6666666963,
+        "ranDry": 0,
+        "costDiff": -7800,
+        "costDiffPct": -0.39352764741940294,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$250 (base)",
+        "cost": 1982071.6666666963,
+        "ranDry": 0,
+        "costDiff": 0,
+        "costDiffPct": 0,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$300",
+        "cost": 1989871.6666666963,
+        "ranDry": 0,
+        "costDiff": 7800,
+        "costDiffPct": 0.39352764741940294,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$350",
+        "cost": 1997671.6666666963,
+        "ranDry": 0,
+        "costDiff": 15600,
+        "costDiffPct": 0.7870552948388059,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      }
+    ],
+    "Fuel Price": [
+      {
+        "label": "$2.50/gal",
+        "cost": 1927722.7083333582,
+        "ranDry": 0,
+        "costDiff": -54348.958333338145,
+        "costDiffPct": -2.742027911873553,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$3.00/gal (base)",
+        "cost": 1982071.6666666963,
+        "ranDry": 0,
+        "costDiff": 0,
+        "costDiffPct": 0,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$3.50/gal",
+        "cost": 2036420.6250000345,
+        "ranDry": 0,
+        "costDiff": 54348.958333338145,
+        "costDiffPct": 2.742027911873553,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$4.00/gal",
+        "cost": 2090769.5833333726,
+        "ranDry": 0,
+        "costDiff": 108697.91666667629,
+        "costDiffPct": 5.484055823747106,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      },
+      {
+        "label": "$5.00/gal",
+        "cost": 2199467.5000000494,
+        "ranDry": 0,
+        "costDiff": 217395.83333335305,
+        "costDiffPct": 10.968111647494236,
+        "fleet": {
+          "numSmallTugs": 2,
+          "numSmallTransportBarges": 0,
+          "numSmallStorageBarges": 2,
+          "numLargeTransport": 2,
+          "numLargeStorage": 2
+        }
+      }
+    ]
+  }
+}
