@@ -493,8 +493,8 @@
     /* Map legend */
     .map-legend {
       position: absolute;
-      bottom: 16px;
-      left: 16px;
+      bottom: 12px;
+      right: 16px;
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(8px);
       border: 2px solid var(--border-black);
@@ -1803,7 +1803,7 @@
         </div>
 
         <!-- SVG Map - all markers and routes rendered via JS -->
-        <svg id="mapSvg" viewBox="600 150 480 950" preserveAspectRatio="xMidYMid meet">
+        <svg id="mapSvg" viewBox="550 190 600 870" preserveAspectRatio="xMidYMid meet">
           <!-- Background map image -->
           <image href="map_background.png" x="0" y="0" width="1662" height="1303" opacity="1" preserveAspectRatio="none" />
           <!-- Route lines group -->
@@ -2497,17 +2497,16 @@
       });
 
       // --- HDD data for July 6, 2026 ---
-      // Offsets to separate clustered markers (px in SVG space)
       const activeHDDs = {
-        HDD19: { rig: 'Blue Rig', rigColor: '#2563eb', phase: 'RIG UP', storage: 100, supply: 'Pre-Staged', active: false, offsetX: -80, offsetY: -20 },
-        HDD21: { rig: 'Green Rig', rigColor: '#16a34a', phase: 'RIG UP', storage: 0, supply: 'Awaiting', active: false, offsetX: -80, offsetY: 20 },
-        HDD23: { rig: 'Red Rig', rigColor: '#dc2626', phase: 'PILOT', storage: 100, supply: '21h supply', active: true, offsetX: 0, offsetY: 0 }
+        HDD19: { rig: 'Blue Rig', rigColor: '#1e3a5f', phase: 'RIG UP', storage: 100, supply: 'Pre-Staged', active: false },
+        HDD21: { rig: 'Green Rig', rigColor: '#22c55e', phase: 'RIG UP', storage: 0, supply: 'Awaiting', active: false },
+        HDD23: { rig: 'Red Rig', rigColor: '#d94545', phase: 'PILOT', storage: 100, supply: '21h supply', active: true }
       };
 
       // --- Tug data for July 6, 2026 ---
       const tugs = [
-        { id: 'T1', status: 'Idle', detail: 'Available', location: 'source3', color: '#b0bec5', offsetX: 50, offsetY: -30 },
-        { id: 'T2', status: 'On-Site', detail: 'Throttled @ HDD23', location: 'HDD23', color: '#3d5a7f', offsetX: 65, offsetY: 10 }
+        { id: 'T1', status: 'Idle', detail: 'Available', location: 'source3', color: '#b0bec5', offsetX: 40, offsetY: -25 },
+        { id: 'T2', status: 'On-Site', detail: 'Throttled @ HDD23', location: 'HDD23', color: '#3d5a7f', offsetX: -35, offsetY: 15 }
       ];
 
       // ================================================================
@@ -2607,103 +2606,84 @@
       });
 
       // ================================================================
-      // 3. DRAW HDD MARKERS
+      // 3. DRAW HDD MARKERS (horizontal meter style, right of entry point)
+      //    Matches index-restructured.html format
       // ================================================================
       Object.entries(activeHDDs).forEach(([hddId, hdd]) => {
         if (!hddLocations[hddId]) return;
-        const realPos = transformCoord(hddLocations[hddId].lng, hddLocations[hddId].lat);
-        const pos = { x: realPos.x + (hdd.offsetX || 0), y: realPos.y + (hdd.offsetY || 0) };
+        const pos = transformCoord(hddLocations[hddId].lng, hddLocations[hddId].lat);
         const g = svgEl('g', {});
 
-        const w = 70, h = 50;
-        const opacity = hdd.active ? '1' : '0.7';
+        // Meter dimensions (matching index-restructured)
+        const barWidth = 60;
+        const labelWidth = 40;
+        const totalWidth = barWidth + labelWidth;
+        const meterHeight = 16;
+        const outerPadding = 2;
+        const innerPadding = 2;
+        const meterOffsetX = 15;  // Gap to the right of entry point
+        const meterOffsetY = -meterHeight / 2;
 
-        // Leader line from offset marker to real position
-        if (hdd.offsetX || hdd.offsetY) {
-          g.appendChild(svgEl('line', {
-            x1: realPos.x, y1: realPos.y,
-            x2: pos.x, y2: pos.y,
-            stroke: hdd.rigColor, 'stroke-width': '1.5',
-            'stroke-dasharray': '4,3', opacity: '0.5'
-          }));
-          // Small dot at real location
-          g.appendChild(svgEl('circle', {
-            cx: realPos.x, cy: realPos.y, r: '4',
-            fill: hdd.rigColor, opacity: '0.5'
-          }));
-        }
+        // Mute colors during RigUp/RigDown
+        const isInactive = !hdd.active;
+        const meterColor = isInactive ? '#9ca3af' : hdd.rigColor;
+        const meterOpacity = isInactive ? '0.6' : '1';
 
-        // Shadow
-        g.appendChild(svgEl('rect', {
-          x: pos.x - w / 2 + 3, y: pos.y - h / 2 + 3,
-          width: w, height: h, rx: '8',
-          fill: 'rgba(84, 110, 122, 0.3)', opacity
+        // Entry point dot
+        g.appendChild(svgEl('circle', {
+          cx: pos.x, cy: pos.y, r: '4',
+          fill: meterColor, stroke: '#1a1a1a', 'stroke-width': '1',
+          opacity: meterOpacity
         }));
 
-        // Main card
+        // Flat shadow (3px offset)
         g.appendChild(svgEl('rect', {
-          x: pos.x - w / 2, y: pos.y - h / 2,
-          width: w, height: h, rx: '8',
-          fill: hdd.rigColor, stroke: '#546e7a', 'stroke-width': '2',
-          opacity, 'stroke-dasharray': hdd.active ? 'none' : '4,3'
+          x: pos.x + meterOffsetX + 3,
+          y: pos.y + meterOffsetY + 3,
+          width: totalWidth, height: meterHeight,
+          fill: '#1a1a1a', rx: '6', opacity: meterOpacity
         }));
 
-        // HDD name
-        const name = svgEl('text', {
-          x: pos.x, y: pos.y - 5,
-          'text-anchor': 'middle', 'font-size': '14',
-          'font-family': "'Bebas Neue', sans-serif",
-          fill: '#ffffff', 'font-weight': '400',
-          'letter-spacing': '1', opacity
-        });
-        name.textContent = hddId;
-        g.appendChild(name);
-
-        // Phase label
-        const phase = svgEl('text', {
-          x: pos.x, y: pos.y + 10,
-          'text-anchor': 'middle', 'font-size': '8',
-          'font-family': "'Work Sans', sans-serif",
-          fill: 'rgba(255,255,255,0.85)', 'font-weight': '600', opacity
-        });
-        phase.textContent = hdd.phase;
-        g.appendChild(phase);
-
-        // Storage bar background
-        const barW = 50, barH = 6, barY = pos.y + h / 2 - 12;
+        // Outer container (rig-colored background)
         g.appendChild(svgEl('rect', {
-          x: pos.x - barW / 2, y: barY,
-          width: barW, height: barH, rx: '3',
-          fill: 'rgba(255,255,255,0.3)', opacity
+          x: pos.x + meterOffsetX,
+          y: pos.y + meterOffsetY,
+          width: totalWidth, height: meterHeight,
+          fill: meterColor, stroke: '#1a1a1a', 'stroke-width': '1',
+          rx: '6', opacity: meterOpacity
         }));
 
-        // Storage bar fill
-        if (hdd.storage > 0) {
-          const fillColor = hdd.storage > 50 ? '#3d5a7f' : (hdd.storage > 25 ? '#c97575' : '#d94545');
+        // White background bar (left portion)
+        g.appendChild(svgEl('rect', {
+          x: pos.x + meterOffsetX + outerPadding,
+          y: pos.y + meterOffsetY + outerPadding,
+          width: barWidth - outerPadding * 2,
+          height: meterHeight - outerPadding * 2,
+          fill: 'white', rx: '2', opacity: meterOpacity
+        }));
+
+        // Colored fill (proportional to storage %)
+        const fillW = (barWidth - outerPadding * 2 - innerPadding * 2) * (hdd.storage / 100);
+        if (fillW > 0) {
           g.appendChild(svgEl('rect', {
-            x: pos.x - barW / 2, y: barY,
-            width: barW * hdd.storage / 100, height: barH, rx: '3',
-            fill: fillColor, opacity
+            x: pos.x + meterOffsetX + outerPadding + innerPadding,
+            y: pos.y + meterOffsetY + outerPadding + innerPadding,
+            width: fillW,
+            height: meterHeight - outerPadding * 2 - innerPadding * 2,
+            fill: meterColor, rx: '1', opacity: meterOpacity
           }));
         }
 
-        // Supply label below marker
-        const supplyLabel = hdd.supply;
-        const slW = supplyLabel.length * 6 + 14;
-        g.appendChild(svgEl('rect', {
-          x: pos.x - slW / 2, y: pos.y + h / 2 + 6,
-          width: slW, height: '18', rx: '4',
-          fill: '#ffffff', stroke: '#546e7a', 'stroke-width': '1.5'
-        }));
-
-        const supplyText = svgEl('text', {
-          x: pos.x, y: pos.y + h / 2 + 18,
-          'text-anchor': 'middle', 'font-size': '8',
-          'font-family': "'IBM Plex Mono', monospace",
-          fill: '#546e7a', 'font-weight': '500'
+        // HDD label (white text on colored background, right side)
+        const label = svgEl('text', {
+          x: pos.x + meterOffsetX + barWidth + labelWidth / 2,
+          y: pos.y + meterOffsetY + meterHeight / 2 + 4,
+          'text-anchor': 'middle', 'font-size': '11',
+          'font-weight': 'normal', fill: '#ffffff',
+          opacity: meterOpacity
         });
-        supplyText.textContent = supplyLabel;
-        g.appendChild(supplyText);
+        label.textContent = hddId;
+        g.appendChild(label);
 
         hddMarkersGroup.appendChild(g);
       });
