@@ -2440,16 +2440,17 @@
       });
 
       // --- HDD data for July 6, 2026 ---
+      // Offsets to separate clustered markers (px in SVG space)
       const activeHDDs = {
-        HDD23: { rig: 'Red Rig', rigColor: '#dc2626', phase: 'PILOT', storage: 100, supply: '21h', active: true },
-        HDD19: { rig: 'Blue Rig', rigColor: '#2563eb', phase: 'RIG UP', storage: 100, supply: 'Pre-Staged', active: false },
-        HDD21: { rig: 'Green Rig', rigColor: '#16a34a', phase: 'RIG UP', storage: 0, supply: 'Awaiting', active: false }
+        HDD19: { rig: 'Blue Rig', rigColor: '#2563eb', phase: 'RIG UP', storage: 100, supply: 'Pre-Staged', active: false, offsetX: -80, offsetY: -20 },
+        HDD21: { rig: 'Green Rig', rigColor: '#16a34a', phase: 'RIG UP', storage: 0, supply: 'Awaiting', active: false, offsetX: -80, offsetY: 20 },
+        HDD23: { rig: 'Red Rig', rigColor: '#dc2626', phase: 'PILOT', storage: 100, supply: '21h supply', active: true, offsetX: 0, offsetY: 0 }
       };
 
       // --- Tug data for July 6, 2026 ---
       const tugs = [
-        { id: 'T1', status: 'Idle', detail: 'Available', location: 'source3', color: '#b0bec5' },
-        { id: 'T2', status: 'On-Site', detail: 'Throttled @ HDD23', location: 'HDD23', color: '#3d5a7f' }
+        { id: 'T1', status: 'Idle', detail: 'Available', location: 'source3', color: '#b0bec5', offsetX: 50, offsetY: -30 },
+        { id: 'T2', status: 'On-Site', detail: 'Throttled @ HDD23', location: 'HDD23', color: '#3d5a7f', offsetX: 65, offsetY: 10 }
       ];
 
       // ================================================================
@@ -2553,11 +2554,27 @@
       // ================================================================
       Object.entries(activeHDDs).forEach(([hddId, hdd]) => {
         if (!hddLocations[hddId]) return;
-        const pos = transformCoord(hddLocations[hddId].lng, hddLocations[hddId].lat);
+        const realPos = transformCoord(hddLocations[hddId].lng, hddLocations[hddId].lat);
+        const pos = { x: realPos.x + (hdd.offsetX || 0), y: realPos.y + (hdd.offsetY || 0) };
         const g = svgEl('g', {});
 
         const w = 70, h = 50;
         const opacity = hdd.active ? '1' : '0.7';
+
+        // Leader line from offset marker to real position
+        if (hdd.offsetX || hdd.offsetY) {
+          g.appendChild(svgEl('line', {
+            x1: realPos.x, y1: realPos.y,
+            x2: pos.x, y2: pos.y,
+            stroke: hdd.rigColor, 'stroke-width': '1.5',
+            'stroke-dasharray': '4,3', opacity: '0.5'
+          }));
+          // Small dot at real location
+          g.appendChild(svgEl('circle', {
+            cx: realPos.x, cy: realPos.y, r: '4',
+            fill: hdd.rigColor, opacity: '0.5'
+          }));
+        }
 
         // Shadow
         g.appendChild(svgEl('rect', {
@@ -2638,33 +2655,23 @@
       // 4. DRAW TUG MARKERS (offset to avoid overlap)
       // ================================================================
       tugs.forEach((tug, idx) => {
-        let pos;
+        let anchorBase;
         if (tug.location.startsWith('source')) {
           const src = sources[tug.location];
-          pos = transformCoord(src.lng, src.lat);
-          pos.x += 45; // Offset right of source
-          pos.y -= 10;
+          anchorBase = transformCoord(src.lng, src.lat);
         } else if (hddLocations[tug.location]) {
-          pos = transformCoord(hddLocations[tug.location].lng, hddLocations[tug.location].lat);
-          pos.x += 55; // Offset right of HDD
-          pos.y -= 5;
+          anchorBase = transformCoord(hddLocations[tug.location].lng, hddLocations[tug.location].lat);
         } else {
           return;
         }
+        const pos = { x: anchorBase.x + (tug.offsetX || 0), y: anchorBase.y + (tug.offsetY || 0) };
 
         const g = svgEl('g', {});
 
         // Connection line from tug to its location
-        let anchorPos;
-        if (tug.location.startsWith('source')) {
-          const src = sources[tug.location];
-          anchorPos = transformCoord(src.lng, src.lat);
-        } else if (hddLocations[tug.location]) {
-          anchorPos = transformCoord(hddLocations[tug.location].lng, hddLocations[tug.location].lat);
-        }
-        if (anchorPos) {
+        if (anchorBase) {
           g.appendChild(svgEl('line', {
-            x1: anchorPos.x, y1: anchorPos.y,
+            x1: anchorBase.x, y1: anchorBase.y,
             x2: pos.x, y2: pos.y,
             stroke: tug.color, 'stroke-width': '1.5',
             'stroke-dasharray': '3,3', opacity: '0.5'
