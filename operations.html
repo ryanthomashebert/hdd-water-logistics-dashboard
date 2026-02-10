@@ -14,39 +14,74 @@
     /* ================================================================
        GRUNGY INDUSTRIAL THEME
        Editorial Magazine Style with WHC+ONEOK Brand Colors
+       Matched to index-restructured.html Design System
        ================================================================ */
 
     :root {
-      /* WHC Brand Colors */
-      --whc-navy: #1e3a5f;
-      --whc-red: #d94545;
+      /* OPTION 2: BALANCED DUO PALETTE */
+      /* Core 7 Colors */
+      --color-1-deep-navy: #1e3a5f;      /* Primary headers, main brand */
+      --color-2-ocean-blue: #3d5a7f;     /* Interactive elements, links, tabs */
+      --color-3-crimson: #d94545;        /* Active states, emphasis */
+      --color-4-soft-crimson: #c97575;   /* Warnings, secondary alerts */
+      --color-5-blue-gray: #546e7a;      /* Body text, neutral elements */
+      --color-6-silver: #b0bec5;         /* Disabled states, subtle borders */
+      --color-7-pearl: #eceff1;          /* Canvas background, light surfaces */
 
-      /* ONEOK Brand Colors */
-      --oneok-blue: #2d9cdb;
-      --oneok-black: #1a1a1a;
+      /* WHC Brand Colors - Mapped to Palette */
+      --whc-navy: #1e3a5f;               /* Color 1 */
+      --whc-navy-dark: #1e3a5f;          /* Color 1 */
+      --whc-navy-light: #3d5a7f;         /* Color 2 */
+      --whc-navy-pale: #3d5a7f;          /* Color 2 */
+      --whc-navy-muted: #546e7a;         /* Color 5 */
+      --whc-red: #d94545;                /* Color 3 */
+      --whc-crimson: #d94545;            /* Color 3 */
+      --whc-crimson-dark: #d94545;       /* Color 3 */
+      --whc-crimson-light: #c97575;      /* Color 4 */
+      --whc-crimson-pale: #c97575;       /* Color 4 */
+      --whc-crimson-muted: #c97575;      /* Color 4 */
 
-      /* Primary Palette */
-      --primary-accent: #2d9cdb;  /* ONEOK Blue as primary */
-      --secondary-accent: #d94545; /* WHC Red for warnings/alerts */
-      --header-dark: #1a1a1a;
-      --navy-dark: #1e3a5f;
+      /* Functional Colors - Mapped to Palette */
+      --primary: #1e3a5f;                /* Color 1: Deep Navy */
+      --primary-light: #3d5a7f;          /* Color 2: Ocean Blue */
+      --primary-dark: #1e3a5f;           /* Color 1: Deep Navy */
+      --primary-bg: #eceff1;             /* Color 7: Pearl */
+      --primary-accent: #3d5a7f;         /* Color 2: Ocean Blue */
+
+      --accent: #d94545;                 /* Color 3: Crimson */
+      --accent-light: #c97575;           /* Color 4: Soft Crimson */
+      --accent-dark: #d94545;            /* Color 3: Crimson */
+      --accent-bg: #eceff1;             /* Color 7: Pearl */
+      --secondary-accent: #d94545;       /* Color 3 */
+
+      /* Legacy aliases for compatibility */
+      --header-dark: #1e3a5f;            /* Color 1 */
+      --navy-dark: #1e3a5f;              /* Color 1 */
+      --cyber-cyan: #3d5a7f;             /* Color 2 */
+      --oneok-blue: #3d5a7f;             /* Color 2 */
+      --oneok-cyan: #3d5a7f;             /* Color 2 */
+      --oneok-black: #546e7a;            /* Color 5 */
 
       /* Light Theme Backgrounds */
-      --bg-cream: #f5f3ef;
+      --bg-cream: #eceff1;               /* Color 7: Pearl */
       --bg-white: #ffffff;
-      --bg-light: #faf9f7;
-      --bg-muted: #eae8e4;
+      --bg-light: #eceff1;               /* Color 7: Pearl */
+      --bg-muted: #b0bec5;              /* Color 6: Silver */
+      --bg-navy-tint: #eceff1;           /* Color 7: Pearl */
+      --bg-crimson-tint: #eceff1;        /* Color 7: Pearl */
 
       /* Text Colors */
-      --text-black: #1a1a1a;
-      --text-dark: #2d2d2d;
-      --text-medium: #5a5a5a;
-      --text-light: #8a8a8a;
+      --text-black: #546e7a;             /* Color 5: Blue Gray */
+      --text-dark: #546e7a;              /* Color 5: Blue Gray */
+      --text-medium: #546e7a;            /* Color 5: Blue Gray */
+      --text-light: #b0bec5;             /* Color 6: Silver */
+      --text-navy: #1e3a5f;              /* Color 1: Deep Navy */
+      --text-crimson: #d94545;           /* Color 3: Crimson */
 
-      /* Status Colors */
-      --status-green: #22c55e;
-      --status-orange: #f59e0b;
-      --status-red: #dc2626;
+      /* Status Colors - Mapped to Palette */
+      --status-green: #3d5a7f;           /* Color 2: Ocean Blue */
+      --status-orange: #c97575;          /* Color 4: Soft Crimson */
+      --status-red: #d94545;             /* Color 3: Crimson */
 
       /* Rig Colors */
       --rig-blue: #2563eb;
@@ -54,11 +89,20 @@
       --rig-red: #dc2626;
 
       /* Borders */
-      --border-black: #1a1a1a;
-      --border-light: #d4d4d4;
+      --border-black: #546e7a;           /* Color 5: Blue Gray */
+      --border-light: #b0bec5;           /* Color 6: Silver */
+      --border-subtle: #b0bec5;          /* Color 6: Silver */
+      --border-navy: #1e3a5f;            /* Color 1: Deep Navy */
+      --border-crimson: #d94545;         /* Color 3: Crimson */
+
+      /* Card Properties */
+      --card-radius: 16px;
+      --panel-radius: 16px;
+      --btn-radius: 8px;
     }
 
     * {
+      font-family: 'Work Sans', system-ui, sans-serif;
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -70,6 +114,8 @@
       color: var(--text-black);
       min-height: 100vh;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     /* Subtle dot pattern background */
@@ -100,7 +146,7 @@
 
     /* Accent stripe */
     .accent-stripe {
-      height: 6px;
+      height: 4px;
       background: var(--primary-accent);
     }
 
@@ -133,7 +179,7 @@
     .logo-divider {
       width: 2px;
       height: 32px;
-      background: #444;
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .header-title {
@@ -148,7 +194,7 @@
     .header-subtitle {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 0.65rem;
-      color: #888;
+      color: rgba(255, 255, 255, 0.5);
       letter-spacing: 0.15em;
       text-transform: uppercase;
       margin-top: 2px;
@@ -168,7 +214,7 @@
       font-family: 'Work Sans', sans-serif;
       font-size: 0.85rem;
       font-weight: 500;
-      color: #aaa;
+      color: rgba(255, 255, 255, 0.6);
       text-transform: uppercase;
       letter-spacing: 0.1em;
     }
@@ -195,7 +241,7 @@
       gap: 12px;
       padding: 12px 20px;
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid #333;
+      border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 8px;
     }
 
@@ -216,7 +262,7 @@
     .weather-condition {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 0.6rem;
-      color: var(--status-green);
+      color: var(--color-2-ocean-blue);
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
@@ -232,7 +278,7 @@
       align-items: center;
       gap: 10px;
       padding: 10px 20px;
-      background: rgba(34, 197, 94, 0.1);
+      background: rgba(61, 90, 127, 0.15);
       border: 2px solid var(--status-green);
       border-radius: 30px;
     }
@@ -296,13 +342,13 @@
     }
 
     .card:hover {
-      transform: translateY(-2px);
-      box-shadow: 8px 8px 0 var(--border-black);
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--border-black);
     }
 
     .card-header {
       padding: 16px 24px;
-      background: var(--bg-light);
+      background: var(--bg-white);
       border-bottom: 2px solid var(--border-black);
       display: flex;
       justify-content: space-between;
@@ -376,7 +422,7 @@
       gap: 8px;
       font-family: 'IBM Plex Mono', monospace;
       font-size: 0.7rem;
-      color: #aaa;
+      color: rgba(255, 255, 255, 0.6);
     }
 
     .map-meta-dot {
@@ -390,7 +436,7 @@
     .map-container {
       position: relative;
       height: 500px;
-      background: linear-gradient(180deg, #e8f4f8 0%, #d4e8ed 50%, #c5dce3 100%);
+      background: linear-gradient(180deg, #e8eef5 0%, #dce4ed 50%, #d0d9e3 100%);
       overflow: hidden;
     }
 
@@ -403,8 +449,8 @@
       right: 0;
       bottom: 0;
       background-image:
-        radial-gradient(ellipse at 20% 30%, rgba(45, 156, 219, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 70%, rgba(45, 156, 219, 0.1) 0%, transparent 40%);
+        radial-gradient(ellipse at 20% 30%, rgba(61, 90, 127, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(61, 90, 127, 0.08) 0%, transparent 40%);
       pointer-events: none;
     }
 
@@ -561,16 +607,16 @@
     }
 
     .tug-marker-icon.en-route {
-      border-color: var(--primary-accent);
+      border-color: var(--color-2-ocean-blue);
       animation: tug-bounce 1s ease-in-out infinite;
     }
 
     .tug-marker-icon.filling {
-      border-color: var(--status-orange);
+      border-color: var(--color-4-soft-crimson);
     }
 
     .tug-marker-icon.on-site {
-      border-color: var(--status-green);
+      border-color: var(--color-2-ocean-blue);
     }
 
     .tug-marker-icon.idle {
@@ -710,12 +756,12 @@
     }
 
     .hdd-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 6px 6px 0 var(--border-black);
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--border-black);
     }
 
     .hdd-card-accent {
-      height: 6px;
+      height: 4px;
     }
 
     .hdd-card.rig-blue .hdd-card-accent { background: var(--rig-blue); }
@@ -765,17 +811,17 @@
     }
 
     .phase-pilot {
-      background: rgba(37, 99, 235, 0.15);
+      background: rgba(37, 99, 235, 0.12);
       color: var(--rig-blue);
     }
 
     .phase-ream {
-      background: rgba(220, 38, 38, 0.15);
+      background: rgba(220, 38, 38, 0.12);
       color: var(--rig-red);
     }
 
     .phase-swab {
-      background: rgba(245, 158, 11, 0.15);
+      background: rgba(201, 117, 117, 0.12);
       color: var(--status-orange);
     }
 
@@ -979,15 +1025,15 @@
     }
 
     .status-icon.en-route {
-      background: rgba(45, 156, 219, 0.15);
+      background: rgba(61, 90, 127, 0.15);
     }
 
     .status-icon.filling {
-      background: rgba(245, 158, 11, 0.15);
+      background: rgba(201, 117, 117, 0.15);
     }
 
     .status-icon.on-site {
-      background: rgba(34, 197, 94, 0.15);
+      background: rgba(61, 90, 127, 0.15);
     }
 
     .status-icon.idle {
@@ -1095,17 +1141,17 @@
     }
 
     .alert-item.critical {
-      background: rgba(220, 38, 38, 0.08);
+      background: rgba(217, 69, 69, 0.06);
       border-color: var(--status-red);
     }
 
     .alert-item.warning {
-      background: rgba(245, 158, 11, 0.08);
+      background: rgba(201, 117, 117, 0.06);
       border-color: var(--status-orange);
     }
 
     .alert-item.info {
-      background: rgba(45, 156, 219, 0.08);
+      background: rgba(61, 90, 127, 0.06);
       border-color: var(--primary-accent);
     }
 
@@ -1173,7 +1219,7 @@
     }
 
     .delivery-status-icon.complete {
-      background: var(--status-green);
+      background: var(--color-2-ocean-blue);
       color: white;
     }
 
@@ -1367,17 +1413,17 @@
     }
 
     .rec-item.critical {
-      background: rgba(220, 38, 38, 0.06);
+      background: rgba(217, 69, 69, 0.06);
       border-color: var(--status-red);
     }
 
     .rec-item.action {
-      background: rgba(245, 158, 11, 0.06);
+      background: rgba(201, 117, 117, 0.06);
       border-color: var(--status-orange);
     }
 
     .rec-item.info {
-      background: rgba(45, 156, 219, 0.06);
+      background: rgba(61, 90, 127, 0.06);
       border-color: var(--primary-accent);
     }
 
@@ -1454,7 +1500,7 @@
 
     .forecast-day.active {
       border-color: var(--status-orange);
-      background: rgba(245, 158, 11, 0.06);
+      background: rgba(201, 117, 117, 0.06);
     }
 
     .forecast-day.weekend {
@@ -1464,7 +1510,7 @@
 
     .forecast-day.critical-forecast {
       border-color: var(--status-green);
-      background: rgba(34, 197, 94, 0.06);
+      background: rgba(61, 90, 127, 0.06);
     }
 
     .forecast-day-header {
@@ -1493,7 +1539,7 @@
     }
 
     .forecast-demand.peak {
-      background: var(--status-red);
+      background: var(--color-3-crimson);
       color: #ffffff;
     }
 
@@ -1581,8 +1627,8 @@
     }
 
     .source-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 5px 5px 0 var(--border-black);
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--border-black);
     }
 
     .source-card-header {
@@ -1883,7 +1929,7 @@
             Real-time tracking
           </div>
           <div class="map-meta-item">
-            Last update: <strong style="color: #fff; margin-left: 4px;">14:32:15</strong>
+            Last update: <strong style="color: #ffffff; margin-left: 4px;">14:32:15</strong>
           </div>
         </div>
       </div>
@@ -2718,9 +2764,9 @@
         const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
         defs.innerHTML = `
           <linearGradient id="routeGradientActive" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color: #2d9cdb; stop-opacity: 0.3"/>
-            <stop offset="50%" style="stop-color: #22c55e; stop-opacity: 1"/>
-            <stop offset="100%" style="stop-color: #2d9cdb; stop-opacity: 0.3"/>
+            <stop offset="0%" style="stop-color: #3d5a7f; stop-opacity: 0.3"/>
+            <stop offset="50%" style="stop-color: #3d5a7f; stop-opacity: 1"/>
+            <stop offset="100%" style="stop-color: #3d5a7f; stop-opacity: 0.3"/>
           </linearGradient>
         `;
         svg.appendChild(defs);
@@ -2734,7 +2780,7 @@
             line.setAttribute('y1', srcPos.y);
             line.setAttribute('x2', hddPos.x);
             line.setAttribute('y2', hddPos.y);
-            line.setAttribute('stroke', 'rgba(30, 58, 95, 0.2)');
+            line.setAttribute('stroke', 'rgba(84, 110, 122, 0.2)');
             line.setAttribute('stroke-width', '2');
             line.setAttribute('stroke-dasharray', '6,4');
             svg.appendChild(line);
