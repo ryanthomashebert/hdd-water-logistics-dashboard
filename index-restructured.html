@@ -1915,9 +1915,13 @@
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '1rem',
+                      fontSize: '0.65rem',
+                      fontWeight: '700',
+                      color: '#ffffff',
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      letterSpacing: '0.5px',
                       border: '2px solid var(--border-black)'
-                    }}>🚢</span>
+                    }}>TUG</span>
                     Tugs
                   </span>
                   <input type="number" value={config.numSmallTugs} onChange={e => updateConfig('numSmallTugs', parseInt(e.target.value) || 0)} min={0} max={6} className="sidebar-input" />
@@ -1934,9 +1938,12 @@
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '1rem',
+                      fontSize: '0.55rem',
+                      fontWeight: '700',
+                      color: '#ffffff',
+                      fontFamily: "'IBM Plex Mono', monospace",
                       border: '2px solid var(--border-black)'
-                    }}>📦</span>
+                    }}>SB</span>
                     Small Transport
                   </span>
                   <input type="number" value={config.numSmallTransportBarges} onChange={e => updateConfig('numSmallTransportBarges', parseInt(e.target.value) || 0)} min={0} max={12} className="sidebar-input" />
@@ -1953,9 +1960,12 @@
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '1rem',
+                      fontSize: '0.55rem',
+                      fontWeight: '700',
+                      color: '#ffffff',
+                      fontFamily: "'IBM Plex Mono', monospace",
                       border: '2px solid var(--border-black)'
-                    }}>🗄️</span>
+                    }}>SS</span>
                     Small Storage
                   </span>
                   <input type="number" value={config.numSmallStorageBarges} onChange={e => updateConfig('numSmallStorageBarges', parseInt(e.target.value) || 0)} min={0} max={12} className="sidebar-input" />
@@ -1972,9 +1982,12 @@
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '1rem',
+                      fontSize: '0.55rem',
+                      fontWeight: '700',
+                      color: '#ffffff',
+                      fontFamily: "'IBM Plex Mono', monospace",
                       border: '2px solid var(--border-black)'
-                    }}>🚚</span>
+                    }}>LB</span>
                     Large Transport
                   </span>
                   <input type="number" value={config.numLargeTransport} onChange={e => updateConfig('numLargeTransport', parseInt(e.target.value) || 0)} min={0} max={4} className="sidebar-input" />
@@ -1991,9 +2004,12 @@
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '1rem',
+                      fontSize: '0.55rem',
+                      fontWeight: '700',
+                      color: '#ffffff',
+                      fontFamily: "'IBM Plex Mono', monospace",
                       border: '2px solid var(--border-black)'
-                    }}>🏗️</span>
+                    }}>LS</span>
                     Large Storage
                   </span>
                   <input type="number" value={config.numLargeStorage} onChange={e => updateConfig('numLargeStorage', parseInt(e.target.value) || 0)} min={0} max={4} className="sidebar-input" />
